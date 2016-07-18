@@ -50,7 +50,7 @@ public class TTT {
         pos -= 1;
         board.setCharAt(pos, ply);
         this.board = board.toString();
-        if (checkWinner(ply)) return ply + " won";
+        if (checkWinner(ply)) return ply + " has won";
         if (this.move == 9) return "Draw";
         return this.board;
     }

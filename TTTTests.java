@@ -48,7 +48,7 @@ public class TTTTests {
         ttt.playerMove('o', 8);
         ttt.playerMove('x', 2);
         ttt.playerMove('o', 9);
-        assertThat(ttt.updateBoard('x', 3), is("x won"));
+        assertThat(ttt.updateBoard('x', 3), is("x has won"));
     }
 
     @Test
