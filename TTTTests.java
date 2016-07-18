@@ -73,4 +73,13 @@ public class TTTTests {
         ttt.playerMove('x', 9);
         assertThat(ttt.updateBoard('o', 5), is("Draw"));
     }
+
+    @Test
+    public void checkAvaliablePos() {
+        TTT ttt = new TTT();
+        ttt.createBoard();
+        ttt.playerMove('x', 1);
+        assertThat(ttt.posAvaliable(0), is(false));
+    }
+
 }

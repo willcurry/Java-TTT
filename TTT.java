@@ -45,9 +45,17 @@ public class TTT {
         return this.board;
     }
 
+    public Boolean posAvaliable(int pos) {
+        if (this.board.charAt(pos) == '-') {
+            return true;
+        }
+        return false;
+    }
+
     public String updateBoard(Character ply, int pos) {
         StringBuilder board = new StringBuilder(this.board);
         pos -= 1;
+        if (!posAvaliable(pos)) return "Unavaliable pos";
         board.setCharAt(pos, ply);
         this.board = board.toString();
         if (checkWinner(ply)) return ply + " has won";
