@@ -46,10 +46,7 @@ public class TTT {
     }
 
     public Boolean posAvaliable(int pos) {
-        if (this.board.charAt(pos) == '-') {
-            return true;
-        }
-        return false;
+        return this.board.charAt(pos) == '-';
     }
 
     public String updateBoard(Character ply, int pos) {
