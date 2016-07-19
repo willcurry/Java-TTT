@@ -48,7 +48,7 @@ public class GameTests {
         Board newBoard = game.playerMakesMove('o', 3, board, 3);
         Board newNewBoard = game.playerMakesMove('o', 4, newBoard, 4);
         assertThat(newNewBoard.getState(), is("xoxo-----"));
-    }
+    } 
 
     @Test
     public void checkTurnWorks() {
