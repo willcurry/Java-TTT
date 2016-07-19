@@ -13,17 +13,39 @@ public class GameTests {
         assertThat(newBoard.getState(), is("--x------"));
     }
     @Test
-    public void canFindWinnerX() {
+    public void canFindWinnerXrow() {
         Game game = new Game();
         Board board = new Board("xxx------", 3);
-        assertThat(game.checkForWin('x', board), is(true));
+        assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void canFindWinnerO() {
+    public void canFindWinnerOrow() {
         Game game = new Game();
         Board board = new Board("ooo------", 3);
-        assertThat(game.checkForWin('o', board), is(true));
+        assertThat(board.checkForWin('o'), is(true));
+    }
+
+    @Test
+    public void canFindWinnerOcolum() {
+        Game game = new Game();
+        Board board = new Board("oxooxoox-", 8);
+        assertThat(board.checkForWin('o'), is(true));
+    }
+
+
+    @Test
+    public void canFindWinnerXcolum() {
+        Game game = new Game();
+        Board board = new Board("oxooxoox-", 8);
+        assertThat(board.checkForWin('x'), is(true));
+    }
+
+    @Test
+    public void canFindWinnerDiagional() {
+        Game game = new Game();
+        Board board = new Board("x---x---x", 8);
+        assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
@@ -56,8 +78,8 @@ public class GameTests {
         Game game = new Game();
         Board board = new Board("xox------", 3);
         Board newBoard = game.playerMakesMove('o', 3, board, 3);
-        Board newNewBoard = game.playerMakesMove('x', 4, newBoard, 4);
-        assertThat(newNewBoard.getState(), is("xoxox----"));
+        Board newNewBoard = game.playerMakesMove('o', 4, newBoard, 4);
+        assertThat(newNewBoard.getState(), is("xoxo-----"));
     }
 
     @Test
@@ -65,6 +87,6 @@ public class GameTests {
         Game game = new Game();
         Board board = new Board("xoxoxoxo-", 8);
         Board newBoard = game.playerMakesMove('x', 8, board, 8);
-        assertEquals(newBoard, null);
+        assertEquals(null, newBoard);
     }
 }
