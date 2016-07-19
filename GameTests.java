@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class GameTests {
@@ -48,7 +49,7 @@ public class GameTests {
         Board newBoard = game.playerMakesMove('o', 3, board, 3);
         Board newNewBoard = game.playerMakesMove('o', 4, newBoard, 4);
         assertThat(newNewBoard.getState(), is("xoxo-----"));
-    } 
+    }
 
     @Test
     public void checkTurnWorks() {
@@ -57,5 +58,13 @@ public class GameTests {
         Board newBoard = game.playerMakesMove('o', 3, board, 3);
         Board newNewBoard = game.playerMakesMove('x', 4, newBoard, 4);
         assertThat(newNewBoard.getState(), is("xoxox----"));
+    }
+
+    @Test
+    public void checkForDraw() {
+        Game game = new Game();
+        Board board = new Board("xoxoxoxo-", 8);
+        Board newBoard = game.playerMakesMove('x', 8, board, 8);
+        assertEquals(newBoard, null);
     }
 }
