@@ -3,6 +3,8 @@ public class Board {
     private char lastTurn = 'o';
     private int width;
 
+    static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}};
+
     public Board(String state) {
         this.state = state;
         width = state.length();
@@ -32,16 +34,10 @@ public class Board {
     }
 
     public boolean checkForDraw() {
-        for (int i=0; i <= 9; i++) {
-            if (state.charAt(i) != '-') {
-                return false;
-            }
-        }
-        return true;
+        return !state.contains("-");
     }
 
     public boolean checkForWin(char ply) {
-        int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}};
         for (int[] formation : win) {
             int count = 0;
            for (int i=0; i < formation.length; i++) {
