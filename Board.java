@@ -38,13 +38,9 @@ public class Board {
     }
 
     public boolean checkRowWin(char ply, int pos) {
-        int[] line1 = {0, 1, 2};
-        int[] line2 = {3, 4, 5};
-        int[] line3 = {6, 7, 8};
-        int[] line = line1;
-        if (pos == 0 || pos == 1 || pos == 2) line = line1;
-        if (pos == 3 || pos == 4 || pos == 5) line = line2;
-        if (pos == 6 || pos == 7 || pos == 8) line = line3;
+        int[] line = {0, 1, 2};
+        if (pos == 3 || pos == 4 || pos == 5) ; line = new int[] {3, 4, 5};
+        if (pos == 6 || pos == 7 || pos == 8) line = new int[] {6, 7, 8};
         int count = 0;
          for (int i=line[0]; i <= line[2]; i++) {
             if (state.charAt(i) == ply) count += 1;
@@ -54,13 +50,9 @@ public class Board {
     }
 
     public boolean checkColumWin(char ply, int pos) {
-        int[] line1 = {0, 3, 6};
-        int[] line2 = {1, 4, 7};
-        int[] line3 = {2, 5, 8};
-        int[] line = line1;
-        if (pos == 0 || pos == 3 || pos == 6) line = line1;
-        if (pos == 1 || pos == 4 || pos == 7) line = line2;
-        if (pos == 2 || pos == 5 || pos == 8) line = line3;
+        int[] line = {0, 3, 6};
+        if (pos == 3 || pos == 4 || pos == 5) line = new int[] {1, 4, 7};
+        if (pos == 6 || pos == 7 || pos == 8) line = new int[] {2, 5, 8};
         int count = 0;
         for (int i=line[0]; i <= line[2]; i++) {
             if (state.charAt(i) == ply) count += 1;
