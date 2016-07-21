@@ -1,22 +1,17 @@
 public class Board {
     private String state;
     private char lastTurn = 'o';
-    private int width;
+    private int dimension;
 
-    static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}};
+    private final static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}};
 
     public Board(String state) {
         this.state = state;
-        width = state.length();
+        dimension = state.length();
     }
 
     public String getState() {
         return this.state;
-    }
-
-    public void endGame(char winner) {
-        System.out.print(winner + " won!");
-        state = "---------";
     }
 
     public Board playerMakesMove(char ply, int pos) {
@@ -26,7 +21,8 @@ public class Board {
             lastTurn = ply;
             Board newBoard = new Board(currentBoard.toString());
             if (newBoard.checkForWin(ply)) {
-                return this;
+                System.out.print(ply + " won! \n");
+                return new Board("----------");
             }
             return newBoard;
         }
@@ -46,6 +42,10 @@ public class Board {
            }
         }
         return false || checkForDraw();
+    }
+
+    public char getLastTurn() {
+        return lastTurn;
     }
 
     public Boolean checkTurn(char ply) {
