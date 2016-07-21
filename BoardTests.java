@@ -49,13 +49,6 @@ public class BoardTests {
     }
 
     @Test
-    public void checkTurnKnowsWhoNextPlayerIs() {
-        Board board = new Board("xox------");
-        Board newBoard = board.playerMakesMove('o', 3);
-        assertThat(newBoard.checkTurn('o'), is(false));
-    }
-
-    @Test
     public void checkForDraw() {
         Board board = new Board("xoxoxoxox");
         assertThat(board.checkForDraw(), is(true));
