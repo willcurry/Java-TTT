@@ -45,14 +45,14 @@ public class BoardTests {
     @Test
     public void posUnavaliable() {
         Board board = new Board("xxx------");
-        Board newBoard = board.playerMakesMove('o', 2, 3);
+        Board newBoard = board.playerMakesMove('o', 2);
         assertThat(newBoard.getState(), is("xxx------"));
     }
 
     @Test
     public void checkTurnKnowsWhoNextPlayerIs() {
         Board board = new Board("xox------");
-        Board newBoard = board.playerMakesMove('o', 3, 3);
+        Board newBoard = board.playerMakesMove('o', 3);
         assertThat(newBoard.checkTurn('o'), is(false));
     }
 

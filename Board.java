@@ -17,14 +17,14 @@ public class Board {
         state = "---------";
     }
 
-    public Board playerMakesMove(char ply, int pos, int move) {
+    public Board playerMakesMove(char ply, int pos) {
         StringBuilder currentBoard = new StringBuilder(state);
         if (currentBoard.charAt(pos) == '-' && checkTurn(ply)) {
             currentBoard.setCharAt(pos, ply);
             lastTurn = ply;
             Board newBoard = new Board(currentBoard.toString());
             if (newBoard.checkForWin(ply)) {
-                return null;
+                return this;
             }
             return newBoard;
         }
@@ -32,16 +32,12 @@ public class Board {
     }
 
     public boolean checkForDraw() {
-        int count = 0;
         for (int i=0; i <= 9; i++) {
             if (state.charAt(i) != '-') {
-               count += 1;
-            }
-            if (count == 9) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean checkForWin(char ply) {
