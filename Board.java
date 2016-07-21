@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Board {
     private String state;
     private int move;
@@ -27,7 +29,6 @@ public class Board {
         if (currentBoard.charAt(pos) == '-' && checkTurn(ply)) {
             currentBoard.setCharAt(pos, ply);
             lastTurn = ply;
-            System.out.println(move);
             Board newBoard = new Board(currentBoard.toString(), ++move);
             if (newBoard.checkForWin(ply, pos)) {
                 return null;
@@ -41,6 +42,7 @@ public class Board {
         int[] line = {0, 1, 2};
         if (pos == 3 || pos == 4 || pos == 5) line = new int[] {3, 4, 5};
         if (pos == 6 || pos == 7 || pos == 8) line = new int[] {6, 7, 8};
+        ArrayList<Integer> list = new ArrayList<>();
         int count = 0;
          for (int i=line[0]; i <= line[2]; i++) {
             if (state.charAt(i) == ply) count += 1;
