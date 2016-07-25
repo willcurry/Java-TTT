@@ -11,9 +11,25 @@ import static org.junit.Assert.assertThat;
 public class GameTests {
     @Test
     public void playerMoveIsRegistered() {
-        InputStream anyInputStream = new ByteArrayInputStream("1".getBytes());
-        Game game = new Game(anyInputStream);
+        InputStream stream = new ByteArrayInputStream("1".getBytes());
+        Game game = new Game(stream);
         Board board = new Board("---------");
-        assertThat(game.playerMakesMove(board, 2), is("-x-------"));
+        assertThat(game.playerMakesMove(board, 2).getState(), is("-x-------"));
+    }
+
+    @Test
+    public void gameKnowsWhosTurnItIs() {
+        InputStream stream = new ByteArrayInputStream("1".getBytes());
+        Game game = new Game(stream);
+        Board board = new Board("o--------");
+        assertThat(game.playerMakesMove(board, 2).getState(), is("ox-------"));
+    }
+
+    @Test
+    public void playerCannotGoInUnavaliablePositions() {
+        InputStream stream = new ByteArrayInputStream("1".getBytes());
+        Game game = new Game(stream);
+        Board board = new Board("o--------");
+        assertThat(game.playerMakesMove(board, 1).getState(), is("o--------"));
     }
 }
