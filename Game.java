@@ -11,10 +11,13 @@ public class Game {
     }
 
     public static Board playerMakesMove(Board board, int pos) {
-        System.out.println("Its your turn " + turn + "!");
-        turn = (turn == 'x' ? 'o' : 'x');
-        board = board.playerMakesMove(turn, pos - 1);
-        showBoard(board);
+        StringBuilder currentBoard = new StringBuilder(board.getState());
+        if (currentBoard.charAt(pos - 1) == '-') {
+            System.out.println("Its your turn " + turn + "!");
+            turn = (turn == 'x' ? 'o' : 'x');
+            board = board.playerMakesMove(turn, pos - 1);
+            showBoard(board);
+        }
         return board;
     }
 

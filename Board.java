@@ -15,16 +15,13 @@ public class Board {
 
     public Board playerMakesMove(char ply, int pos) {
         StringBuilder currentBoard = new StringBuilder(state);
-        if (currentBoard.charAt(pos) == '-') {
-            currentBoard.setCharAt(pos, ply);
-            Board newBoard = new Board(currentBoard.toString());
-            if (newBoard.checkForWin(ply)) {
-                System.out.print(ply + " won! \n");
-                return new Board("----------");
-            }
-            return newBoard;
+        currentBoard.setCharAt(pos, ply);
+        Board newBoard = new Board(currentBoard.toString());
+        if (newBoard.checkForWin(ply)) {
+            System.out.print(ply + " won! \n");
+            return new Board("----------");
         }
-        return this;
+        return newBoard;
     }
 
     public boolean checkForDraw() {
