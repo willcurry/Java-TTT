@@ -20,7 +20,7 @@ public class Board {
         if (newBoard.checkForWin(ply)) {
             System.out.print(ply + " has won this game! \n");
             System.out.print("New game starting... \n");
-            return new Board("----------");
+            return new Board("---------");
         }
         return newBoard;
     }
