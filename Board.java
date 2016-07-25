@@ -2,7 +2,7 @@ public class Board {
     private String state;
     private int dimension;
 
-    private final static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}};
+    private final static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}, {2, 4, 6}};
 
     public Board(String state) {
         this.state = state;
@@ -18,7 +18,8 @@ public class Board {
         currentBoard.setCharAt(pos, ply);
         Board newBoard = new Board(currentBoard.toString());
         if (newBoard.checkForWin(ply)) {
-            System.out.print(ply + " won! \n");
+            System.out.print(ply + " has won this game! \n");
+            System.out.print("New game starting! \n");
             return new Board("----------");
         }
         return newBoard;
