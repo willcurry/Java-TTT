@@ -13,16 +13,29 @@ public class Board {
         return this.state;
     }
 
+     public Boolean avaliablePos(int pos) {
+        if (state.charAt(pos) == '-') {
+            if (!(pos > 9) || !(pos < 1)) {
+                return true;
+            }
+        }
+        System.out.println("Not a valid position");
+        return false;
+    }
+
     public Board playerMakesMove(char ply, int pos) {
         StringBuilder currentBoard = new StringBuilder(state);
-        currentBoard.setCharAt(pos, ply);
-        Board newBoard = new Board(currentBoard.toString());
-        if (newBoard.checkForWin(ply)) {
-            System.out.print(ply + " has won this game! \n");
-            System.out.print("New game starting... \n");
-            return new Board("---------");
+        if (avaliablePos(pos)) {
+            currentBoard.setCharAt(pos, ply);
+            Board newBoard = new Board(currentBoard.toString());
+            if (newBoard.checkForWin(ply)) {
+                System.out.print(ply + " has won this game! \n");
+                System.out.print("New game starting... \n");
+                return new Board("---------");
+            }
+            return newBoard;
         }
-        return newBoard;
+        return this;
     }
 
     public boolean checkForDraw() {

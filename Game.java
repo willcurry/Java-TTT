@@ -3,11 +3,15 @@ import java.util.Scanner;
 
 public class Game {
 
+    private final Scanner scanner;
     private char turn = 'o';
     private InputStream stream;
+    private Board board;
 
-    public Game(InputStream stream) {
+    public Game(InputStream stream, Board board) {
         this.stream = stream;
+        this.scanner = new Scanner(stream);
+        this.board = board;
     }
 
     public void print(String text) {
@@ -20,19 +24,10 @@ public class Game {
         print("|" + board.getState().substring(6, 9) + "|");
     }
 
-    public Boolean avaliablePos(Board board, int pos) {
-        StringBuilder currentBoard = new StringBuilder(board.getState());
-        if (currentBoard.charAt(pos - 1) == '-') {
-            if (!(pos > 9) || !(pos < 1)) {
-                return true;
-            }
-        }
-        print("Not a valid position");
-        return false;
-    }
 
-    public Board playerMakesMove(Board board, int pos) {
-        if (!avaliablePos(board, pos)) return board;
+
+    public Board playerMakesMove() {
+        int pos = scanner.nextInt();
         print("Its your turn " + turn + "!");
         turn = (turn == 'x' ? 'o' : 'x');
         board = board.playerMakesMove(turn, pos - 1);
@@ -42,16 +37,15 @@ public class Game {
 
     public void playGame(Board board) {
         this.showBoard(board);
-        Scanner scan = new Scanner(stream);
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
         while (!board.checkForDraw()) {
-            board = this.playerMakesMove(board, scan.nextInt());
+            board = this.playerMakesMove();
         }
     }
 
     public static void main(String[] args) {
-        Game game = new Game(System.in);
         Board board = new Board("---------");
+        Game game = new Game(System.in, board);
         game.playGame(board);
     }
 }

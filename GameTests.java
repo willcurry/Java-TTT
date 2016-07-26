@@ -1,6 +1,6 @@
 import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static org.hamcrest.core.Is.is;
@@ -8,42 +8,61 @@ import static org.junit.Assert.assertThat;
 
 public class GameTests {
     @Test
-    public void playerMoveIsRegistered() {
-        InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Game game = new Game(stream);
+    public void playerMoveIsRegistered() throws IOException {
+        InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("---------");
-        assertThat(game.playerMakesMove(board, 2).getState(), is("-x-------"));
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
     }
 
     @Test
+    public void multiplePlayerMovesAreRegistered() throws IOException {
+        InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
+        Board board = new Board("---------");
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
+        assertThat(game.playerMakesMove().getState(), is("-xo------"));
+    }
+
+    @Test
+    public void doesNotOverwriteMove() {
+        InputStream stream = new ByteArrayInputStream("2\n2".getBytes());
+        Board board = new Board("---------");
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
+    }
+
+
+    @Test
     public void gameKnowsWhosTurnItIs() {
-        InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Game game = new Game(stream);
+        InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("o--------");
-        assertThat(game.playerMakesMove(board, 2).getState(), is("ox-------"));
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("ox-------"));
     }
 
     @Test
     public void playerCannotGoInUnavaliablePositions() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Game game = new Game(stream);
         Board board = new Board("o--------");
-        assertThat(game.playerMakesMove(board, 1).getState(), is("o--------"));
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("o--------"));
     }
 
     @Test
     public void newGameStartsAfterWin() {
-        InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Game game = new Game(stream);
+        InputStream stream = new ByteArrayInputStream("3".getBytes());
         Board board = new Board("xx-------");
-        assertThat(game.playerMakesMove(board, 3).getState(), is("---------"));
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 
     @Test
     public void newGameStartsAfterDraw() {
-        InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Game game = new Game(stream);
+        InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
-        assertThat(game.playerMakesMove(board, 9).getState(), is("---------"));
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 }
