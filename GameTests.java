@@ -65,4 +65,12 @@ public class GameTests {
         Game game = new Game(stream, board);
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }
+
+    @Test
+    public void boardIsDisplayedCorrectly() {
+        InputStream stream = new ByteArrayInputStream("9".getBytes());
+        Board board = new Board("xxooxxox-");
+        Game game = new Game(stream, board);
+        assertThat(game.showBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
+    }
 }

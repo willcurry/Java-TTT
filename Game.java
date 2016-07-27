@@ -19,10 +19,9 @@ public class Game {
         System.out.println(text);
     }
 
-    public void showBoard(Board board) {
-        print("|" + board.getState().substring(0, 3) + "|");
-        print("|" + board.getState().substring(3, 6) + "|");
-        print("|" + board.getState().substring(6, 9) + "|");
+    public String showBoard(Board board) {
+        print("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|");
+        return String.format("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|");
     }
 
     public Board playerMakesMove() {
@@ -43,19 +42,23 @@ public class Game {
         }
     }
 
-    public void pickGameMode() {
+    public void displayAllGamemodes() {
         print("Hello, what gamemode would you like?");
         print("Human vs player (pvp)");
         print("Human vs computer (pvc)");
         print("Computer vs human (cvh)");
         print("Computer vs computer (cvc)");
+    }
+
+    public void pickGameMode() {
+        displayAllGamemodes();
         Scanner s = new Scanner(System.in);
         String gm = s.nextLine();
         if (gm.equals("pvp") || gm.equals("pvc") || gm.equals("cvp") || gm.equals("cvc")) {
             gameMode = gm;
             playGame(board);
         } else {
-            System.out.println("You did not pick a valid gamemode.");
+            print("You did not pick a valid gamemode.");
         }
     }
 
