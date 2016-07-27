@@ -7,6 +7,7 @@ public class Game {
     private char turn = 'o';
     private InputStream stream;
     private Board board;
+    private String gameMode;
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
@@ -24,8 +25,6 @@ public class Game {
         print("|" + board.getState().substring(6, 9) + "|");
     }
 
-
-
     public Board playerMakesMove() {
         int pos = scanner.nextInt();
         print("Its your turn " + turn + "!");
@@ -36,16 +35,33 @@ public class Game {
     }
 
     public void playGame(Board board) {
-        this.showBoard(board);
+        print(gameMode.toUpperCase() + " game is starting..");
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+        showBoard(board);
         while (!board.checkForDraw()) {
-            board = this.playerMakesMove();
+            board = playerMakesMove();
+        }
+    }
+
+    public void pickGameMode() {
+        print("Hello, what gamemode would you like?");
+        print("Human vs player (pvp)");
+        print("Human vs computer (pvc)");
+        print("Computer vs human (cvh)");
+        print("Computer vs computer (cvc)");
+        Scanner s = new Scanner(System.in);
+        String gm = s.nextLine();
+        if (gm.equals("pvp") || gm.equals("pvc") || gm.equals("cvp") || gm.equals("cvc")) {
+            gameMode = gm;
+            playGame(board);
+        } else {
+            System.out.println("You did not pick a valid gamemode.");
         }
     }
 
     public static void main(String[] args) {
         Board board = new Board("---------");
         Game game = new Game(System.in, board);
-        game.playGame(board);
+        game.pickGameMode();
     }
 }
