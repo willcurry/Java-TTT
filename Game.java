@@ -9,6 +9,7 @@ public class Game {
     private InputStream stream;
     private Board board;
     private String gameMode = "pvp";
+    private ComputerPlayer computerPlayer = new ComputerPlayer();
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
@@ -34,18 +35,14 @@ public class Game {
     }
 
     public Board playerMakesMove() {
-        int index = randInt(0, board.availablePositions().size());
-        int pos;
-        if (turn == 'o' && gameMode.equals("pvc")) {
-            pos = (int) board.availablePositions().get(index);
-            board = board.playerMakesMove('o', pos);
+        if (getTurn() == 'o' && gameMode.equals("pvc")) {
+            board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
         } else if(gameMode.equals("cvc")) {
-            pos = (int) board.availablePositions().get(index);
-            board = board.playerMakesMove(getTurn(), pos);
+            board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
         } else {
-            pos = scanner.nextInt();
-            if (!board.availablePosition(pos - 1)) return board;
-            board = board.playerMakesMove(getTurn(), pos - 1);
+            int position = scanner.nextInt();
+            if (!board.availablePosition(position - 1)) return board;
+            board = board.playerMakesMove(getTurn(), position - 1);
         }
         switchTurn();
         print("-----------------");
@@ -54,12 +51,6 @@ public class Game {
         showBoard(board);
         print("-----------------");
         return board;
-    }
-
-    public static int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
     }
 
     public void playGame(Board board) {

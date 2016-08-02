@@ -73,4 +73,20 @@ public class GameTests {
         Game game = new Game(stream, board);
         assertThat(game.showBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
     }
+
+    @Test
+    public void cannotGoInAPositionLowerThen0() {
+        InputStream stream = new ByteArrayInputStream("-1".getBytes());
+        Board board = new Board("---------");
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("---------"));
+    }
+
+    @Test
+    public void cannotGoInHigherThenMaxLength() {
+        InputStream stream = new ByteArrayInputStream("10".getBytes());
+        Board board = new Board("---------");
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("---------"));
+    }
 }
