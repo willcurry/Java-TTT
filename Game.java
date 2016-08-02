@@ -61,12 +61,18 @@ public class Game {
         }
     }
 
+    public enum Gamemodes {
+        PVP,
+        PVC,
+        CVH,
+        CVC
+    }
+
     public void displayAllGamemodes() {
         print("Hello, what gamemode would you like?");
-        print("Human vs player (pvp)");
-        print("Human vs computer (pvc)");
-        print("Computer vs human (cvh)");
-        print("Computer vs computer (cvc)");
+        for (Gamemodes gm : Gamemodes.values()) {
+            print(gm.toString());
+        }
     }
 
     public void pickGameMode() {
