@@ -12,7 +12,7 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("-x-------"));
+        assertThat(game.playerMakesMove().getState(), is("-o-------"));
     }
 
     @Test
@@ -20,8 +20,8 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("-x-------"));
-        assertThat(game.playerMakesMove().getState(), is("-xo------"));
+        assertThat(game.playerMakesMove().getState(), is("-o-------"));
+        assertThat(game.playerMakesMove().getState(), is("-ox------"));
     }
 
     @Test
@@ -29,17 +29,17 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2\n2".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("-x-------"));
-        assertThat(game.playerMakesMove().getState(), is("-x-------"));
+        assertThat(game.playerMakesMove().getState(), is("-o-------"));
+        assertThat(game.playerMakesMove().getState(), is("-o-------"));
     }
 
 
     @Test
     public void gameKnowsWhosTurnItIs() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
-        Board board = new Board("o--------");
+        Board board = new Board("x--------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("ox-------"));
+        assertThat(game.playerMakesMove().getState(), is("xo-------"));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class GameTests {
     @Test
     public void newGameStartsAfterWin() {
         InputStream stream = new ByteArrayInputStream("3".getBytes());
-        Board board = new Board("xx-------");
+        Board board = new Board("oo-------");
         Game game = new Game(stream, board);
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }

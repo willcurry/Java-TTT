@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Board {
     private String state;
     private int dimension;
@@ -13,11 +15,9 @@ public class Board {
         return this.state;
     }
 
-     public Boolean avaliablePos(int pos) {
-        if (state.charAt(pos) == '-') {
-            if (!(pos > 9) || !(pos < 1)) {
-                return true;
-            }
+     public Boolean availablePosition(int pos) {
+        if (state.charAt(pos) == '-' && pos >= 0 && pos <= dimension) {
+            return true;
         }
         System.out.println("Not a valid position");
         return false;
@@ -25,7 +25,7 @@ public class Board {
 
     public Board playerMakesMove(char ply, int pos) {
         StringBuilder currentBoard = new StringBuilder(state);
-        if (avaliablePos(pos)) {
+        if (availablePosition(pos)) {
             currentBoard.setCharAt(pos, ply);
             Board newBoard = new Board(currentBoard.toString());
             if (newBoard.checkForWin(ply)) {
@@ -51,6 +51,16 @@ public class Board {
            }
         }
         return checkForDraw();
+    }
+
+    public ArrayList availablePositions() {
+        ArrayList<Integer> positions = new ArrayList<>();
+        for (int i=0; i < dimension; i++) {
+            if (state.charAt(i) == '-') {
+                positions.add(i);
+            }
+        }
+        return positions;
     }
 
 }
