@@ -78,13 +78,15 @@ public class Game {
     public void pickGameMode() {
         displayAllGamemodes();
         Scanner s = new Scanner(System.in);
-        String gm = s.nextLine();
-        if (gm.equals("pvp") || gm.equals("pvc") || gm.equals("cvp") || gm.equals("cvc")) {
-            gameMode = gm;
-            playGame(board);
-        } else {
-            print("You did not pick a valid gamemode.");
+        String input = s.nextLine();
+        for (Gamemodes gm : Gamemodes.values()) {
+            if (input.equals(gm.toString())) {
+                gameMode = input;
+                playGame(board);
+                return;
+            }
         }
+        print("You did not pick a valid gamemode.");
     }
 
     public static void main(String[] args) {

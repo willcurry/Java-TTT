@@ -45,7 +45,7 @@ public class Board {
     public boolean checkForWin(char player) {
         for (int[] formation : win) {
             int count = 0;
-           for (int i=0; i < formation.length; i++) {
+            for (int i=0; i < formation.length; i++) {
                if (state.charAt(formation[i]) == player) count += 1;
                if (count == 3) return true;
            }
