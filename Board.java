@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Board {
     private String state;
     private int dimension;
 
-    private final static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}};
+    private final static int[][] win = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {6, 7, 8}, {0, 4, 8}, {2, 4, 6}, {2, 4, 8}};
 
     public Board(String state) {
         this.state = state;
@@ -13,15 +15,27 @@ public class Board {
         return this.state;
     }
 
+     public Boolean availablePosition(int pos) {
+        if (state.charAt(pos) == '-' && pos >= 0 && pos <= dimension) {
+            return true;
+        }
+        System.out.println("Not a valid position");
+        return false;
+    }
+
     public Board playerMakesMove(char ply, int pos) {
         StringBuilder currentBoard = new StringBuilder(state);
-        currentBoard.setCharAt(pos, ply);
-        Board newBoard = new Board(currentBoard.toString());
-        if (newBoard.checkForWin(ply)) {
-            System.out.print(ply + " won! \n");
-            return new Board("----------");
+        if (availablePosition(pos)) {
+            currentBoard.setCharAt(pos, ply);
+            Board newBoard = new Board(currentBoard.toString());
+            if (newBoard.checkForWin(ply)) {
+                System.out.print(ply + " has won this game! \n");
+                System.out.print("New game starting... \n");
+                return new Board("---------");
+            }
+            return newBoard;
         }
-        return newBoard;
+        return this;
     }
 
     public boolean checkForDraw() {
@@ -36,7 +50,17 @@ public class Board {
                if (count == 3) return true;
            }
         }
-        return false || checkForDraw();
+        return checkForDraw();
+    }
+
+    public ArrayList availablePositions() {
+        ArrayList<Integer> positions = new ArrayList<>();
+        for (int i=0; i < dimension; i++) {
+            if (state.charAt(i) == '-') {
+                positions.add(i);
+            }
+        }
+        return positions;
     }
 
 }
