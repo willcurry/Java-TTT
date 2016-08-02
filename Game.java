@@ -9,7 +9,7 @@ public class Game {
     private InputStream stream;
     private Board board;
     private String gameMode = "pvp";
-    private ComputerPlayer computerPlayer = new ComputerPlayer();
+    private ComputerPlayer computerPlayer;
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
@@ -36,8 +36,10 @@ public class Game {
 
     public Board playerMakesMove() {
         if (getTurn() == 'o' && gameMode.equals("pvc")) {
+            computerPlayer = new ComputerPlayer();
             board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
         } else if(gameMode.equals("cvc")) {
+            computerPlayer = new ComputerPlayer();
             board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
         } else {
             int position = scanner.nextInt();
@@ -81,7 +83,7 @@ public class Game {
         String input = s.nextLine();
         for (Gamemodes gm : Gamemodes.values()) {
             if (input.equals(gm.toString())) {
-                gameMode = input;
+                gameMode = input.toLowerCase();
                 playGame(board);
                 return;
             }
