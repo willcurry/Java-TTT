@@ -39,7 +39,8 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("x--------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("xo-------"));
+        game.playerMakesMove();
+        assertThat(game.getTurn(), is('x'));
     }
 
     @Test
