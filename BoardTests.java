@@ -53,4 +53,14 @@ public class BoardTests {
         Board board = new Board("xoxoxoxox");
         assertThat(board.checkForDraw(), is(true));
     }
+
+    @Test
+    public void canGetAllAvailablePositions() {
+        Board board = new Board("---x----");
+        int count = 0;
+        for (int i=0; i < board.availablePositions().size(); i++) {
+            count += 1;
+        }
+        assertThat(count, is(7));
+    }
 }

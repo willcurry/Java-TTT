@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 
 public class GameTests {
     @Test
-    public void playerMoveIsRegistered() throws IOException {
+    public void playerMoveIsRegistered() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
@@ -16,7 +16,7 @@ public class GameTests {
     }
 
     @Test
-    public void multiplePlayerMovesAreRegistered() throws IOException {
+    public void multiplePlayerMovesAreRegistered() {
         InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
@@ -35,11 +35,12 @@ public class GameTests {
 
 
     @Test
-    public void gameKnowsWhosTurnItIs() {
+    public void gameKnowsWhoseTurnItIs() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("x--------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("xo-------"));
+        game.playerMakesMove();
+        assertThat(game.getTurn(), is('x'));
     }
 
     @Test
@@ -72,5 +73,21 @@ public class GameTests {
         Board board = new Board("xxooxxox-");
         Game game = new Game(stream, board);
         assertThat(game.showBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
+    }
+
+    @Test
+    public void cannotGoInAPositionLowerThen0() {
+        InputStream stream = new ByteArrayInputStream("-1".getBytes());
+        Board board = new Board("---------");
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("---------"));
+    }
+
+    @Test
+    public void cannotGoInHigherThenMaxLength() {
+        InputStream stream = new ByteArrayInputStream("10".getBytes());
+        Board board = new Board("---------");
+        Game game = new Game(stream, board);
+        assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 }

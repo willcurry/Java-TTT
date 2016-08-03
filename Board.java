@@ -15,21 +15,21 @@ public class Board {
         return this.state;
     }
 
-     public Boolean availablePosition(int pos) {
-        if (state.charAt(pos) == '-' && pos >= 0 && pos <= dimension) {
+     public Boolean availablePosition(int position) {
+        if ( position >= 0 && position < dimension && state.charAt(position) == '-') {
             return true;
         }
         System.out.println("Not a valid position");
         return false;
     }
 
-    public Board playerMakesMove(char ply, int pos) {
+    public Board playerMakesMove(char player, int position) {
         StringBuilder currentBoard = new StringBuilder(state);
-        if (availablePosition(pos)) {
-            currentBoard.setCharAt(pos, ply);
+        if (availablePosition(position)) {
+            currentBoard.setCharAt(position, player);
             Board newBoard = new Board(currentBoard.toString());
-            if (newBoard.checkForWin(ply)) {
-                System.out.print(ply + " has won this game! \n");
+            if (newBoard.checkForWin(player)) {
+                System.out.print(player + " has won this game! \n");
                 System.out.print("New game starting... \n");
                 return new Board("---------");
             }
@@ -42,11 +42,11 @@ public class Board {
         return !state.contains("-");
     }
 
-    public boolean checkForWin(char ply) {
+    public boolean checkForWin(char player) {
         for (int[] formation : win) {
             int count = 0;
-           for (int i=0; i < formation.length; i++) {
-               if (state.charAt(formation[i]) == ply) count += 1;
+            for (int i=0; i < formation.length; i++) {
+               if (state.charAt(formation[i]) == player) count += 1;
                if (count == 3) return true;
            }
         }

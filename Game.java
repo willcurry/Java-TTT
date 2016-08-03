@@ -9,6 +9,7 @@ public class Game {
     private InputStream stream;
     private Board board;
     private String gameMode = "pvp";
+    private ComputerPlayer computerPlayer;
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
@@ -34,18 +35,16 @@ public class Game {
     }
 
     public Board playerMakesMove() {
-        int index = randInt(0, board.availablePositions().size());
-        int pos;
-        if (turn == 'o' && gameMode.equals("pvc")) {
-            pos = (int) board.availablePositions().get(index);
-            board = board.playerMakesMove('o', pos);
+        if (getTurn() == 'o' && gameMode.equals("pvc")) {
+            computerPlayer = new ComputerPlayer();
+            board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
         } else if(gameMode.equals("cvc")) {
-            pos = (int) board.availablePositions().get(index);
-            board = board.playerMakesMove(getTurn(), pos);
+            computerPlayer = new ComputerPlayer();
+            board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
         } else {
-            pos = scanner.nextInt();
-            if (!board.availablePosition(pos - 1)) return board;
-            board = board.playerMakesMove(getTurn(), pos - 1);
+            int position = scanner.nextInt();
+            if (!board.availablePosition(position - 1)) return board;
+            board = board.playerMakesMove(getTurn(), position - 1);
         }
         switchTurn();
         print("-----------------");
@@ -56,12 +55,6 @@ public class Game {
         return board;
     }
 
-    public static int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
-    }
-
     public void playGame(Board board) {
         print(gameMode.toUpperCase() + " game is starting..");
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
@@ -70,24 +63,32 @@ public class Game {
         }
     }
 
+    public enum Gamemodes {
+        PVP,
+        PVC,
+        CVH,
+        CVC
+    }
+
     public void displayAllGamemodes() {
         print("Hello, what gamemode would you like?");
-        print("Human vs player (pvp)");
-        print("Human vs computer (pvc)");
-        print("Computer vs human (cvh)");
-        print("Computer vs computer (cvc)");
+        for (Gamemodes gm : Gamemodes.values()) {
+            print(gm.toString());
+        }
     }
 
     public void pickGameMode() {
         displayAllGamemodes();
         Scanner s = new Scanner(System.in);
-        String gm = s.nextLine();
-        if (gm.equals("pvp") || gm.equals("pvc") || gm.equals("cvp") || gm.equals("cvc")) {
-            gameMode = gm;
-            playGame(board);
-        } else {
-            print("You did not pick a valid gamemode.");
+        String input = s.nextLine();
+        for (Gamemodes gm : Gamemodes.values()) {
+            if (input.equals(gm.toString())) {
+                gameMode = input.toLowerCase();
+                playGame(board);
+                return;
+            }
         }
+        print("You did not pick a valid gamemode.");
     }
 
     public static void main(String[] args) {
