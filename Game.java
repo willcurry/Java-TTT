@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Game {
 
-    private char turn = 'o';
     private InputStream stream;
     private Board board;
     private String gameMode = "pvp";
@@ -16,12 +15,10 @@ public class Game {
         this.board = board;
     }
 
-    public char getTurn() {
-        return turn;
-    }
-
     public void switchTurn() {
-        turn = (turn == 'o' ? 'x' : 'o');
+        Player newActivePlayer = playerActive;
+        playerActive = playerDeactive;
+        playerDeactive = newActivePlayer;
     }
 
     public void print(String text) {
@@ -39,11 +36,11 @@ public class Game {
             print("Invalid Position");
             return board;
         }
-        board = board.playerMakesMove(getTurn(), position - 1);
+        board = board.playerMakesMove(playerActive.getMark(), position - 1);
 
         switchTurn();
         print("-----------------");
-        print("Its your turn " + getTurn() + "!");
+        print("Its your turn " + playerActive.getMark() + "!");
         print("-----------------");
         showBoard(board);
         print("-----------------");
@@ -52,14 +49,14 @@ public class Game {
 
     public void assignPlayers() {
         if (gameMode.equals("pvp")) {
-            playerActive = new HumanPlayer(stream);
-            playerDeactive = new HumanPlayer(stream);
+            playerActive = new HumanPlayer(stream, 'x');
+            playerDeactive = new HumanPlayer(stream, 'o');
         } else if (gameMode.equals("pvc")) {
-            playerActive = new ComputerPlayer();
-            playerDeactive = new HumanPlayer(stream);
+            playerActive = new ComputerPlayer('x');
+            playerDeactive = new HumanPlayer(stream, 'o');
         } else {
-            playerActive = new ComputerPlayer();
-            playerDeactive = new ComputerPlayer();
+            playerActive = new ComputerPlayer('x');
+            playerDeactive = new ComputerPlayer('o');
         }
     }
 
