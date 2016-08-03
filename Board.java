@@ -16,11 +16,10 @@ public class Board {
     }
 
      public Boolean availablePosition(int position) {
-        if ( position >= 0 && position < dimension && state.charAt(position) == '-') {
-            return true;
-        }
-        System.out.println("Not a valid position");
-        return false;
+         if ( position >= 0 && position <= dimension && state.charAt(position) == '-') {
+             return true;
+         }
+         return false;
     }
 
     public Board playerMakesMove(char player, int position) {

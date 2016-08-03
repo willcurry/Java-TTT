@@ -4,16 +4,15 @@ import java.util.Scanner;
 
 public class Game {
 
-    private final Scanner scanner;
     private char turn = 'o';
     private InputStream stream;
     private Board board;
     private String gameMode = "pvp";
-    private ComputerPlayer computerPlayer;
+    private Player playerActive;
+    private Player playerDeactive;
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
-        this.scanner = new Scanner(stream);
         this.board = board;
     }
 
@@ -35,17 +34,13 @@ public class Game {
     }
 
     public Board playerMakesMove() {
-        if (getTurn() == 'o' && gameMode.equals("pvc")) {
-            computerPlayer = new ComputerPlayer();
-            board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
-        } else if(gameMode.equals("cvc")) {
-            computerPlayer = new ComputerPlayer();
-            board = board.playerMakesMove(getTurn(), computerPlayer.nextMove(board));
-        } else {
-            int position = scanner.nextInt();
-            if (!board.availablePosition(position - 1)) return board;
-            board = board.playerMakesMove(getTurn(), position - 1);
+        int position = playerActive.nextMove(board);
+        if (!board.availablePosition(position - 1)) {
+            print("Invalid Position");
+            return board;
         }
+        board = board.playerMakesMove(getTurn(), position - 1);
+
         switchTurn();
         print("-----------------");
         print("Its your turn " + getTurn() + "!");
@@ -55,7 +50,21 @@ public class Game {
         return board;
     }
 
+    public void assignPlayers() {
+        if (gameMode.equals("pvp")) {
+            playerActive = new HumanPlayer(stream);
+            playerDeactive = new HumanPlayer(stream);
+        } else if (gameMode.equals("pvc")) {
+            playerActive = new ComputerPlayer();
+            playerDeactive = new HumanPlayer(stream);
+        } else {
+            playerActive = new ComputerPlayer();
+            playerDeactive = new ComputerPlayer();
+        }
+    }
+
     public void playGame(Board board) {
+        assignPlayers();
         print(gameMode.toUpperCase() + " game is starting..");
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
         while (!board.checkForDraw()) {
@@ -66,7 +75,6 @@ public class Game {
     public enum Gamemodes {
         PVP,
         PVC,
-        CVH,
         CVC
     }
 
