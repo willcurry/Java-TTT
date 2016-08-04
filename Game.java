@@ -41,7 +41,7 @@ public class Game {
             print("-----------------");
             return board;
         }
-        print("Invalid Position");
+        print(position + " is not a valid position!");
         return board;
     }
 
@@ -62,7 +62,7 @@ public class Game {
         assignPlayers();
         print(gameMode.toUpperCase() + " game is starting..");
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-        while (!board.checkForDraw()) {
+        while (!board.checkForDraw() || !board.getState().equals("Game Over")) {
             board = playerMakesMove();
         }
     }

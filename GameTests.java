@@ -55,21 +55,21 @@ public class GameTests {
     }
 
     @Test
-    public void newGameStartsAfterWin() {
+    public void gameEndsAfterWin() {
         InputStream stream = new ByteArrayInputStream("3".getBytes());
         Board board = new Board("xx-------");
         Game game = new Game(stream, board);
         game.assignPlayers();
-        assertThat(game.playerMakesMove().getState(), is("---------"));
+        assertThat(game.playerMakesMove().getState(), is("Game Over"));
     }
 
     @Test
-    public void newGameStartsAfterDraw() {
+    public void gameEndsAfterDraw() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
         Game game = new Game(stream, board);
         game.assignPlayers();
-        assertThat(game.playerMakesMove().getState(), is("---------"));
+        assertThat(game.playerMakesMove().getState(), is("Game Over"));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class GameTests {
 
     @Test
     public void cannotGoInHigherThenMaxLength() {
-        InputStream stream = new ByteArrayInputStream("10".getBytes());
+        InputStream stream = new ByteArrayInputStream("11".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
         game.assignPlayers();

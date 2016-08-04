@@ -27,7 +27,7 @@ public class Board {
             if (newBoard.checkForWin(player)) {
                 System.out.print(player + " has won this game! \n");
                 System.out.print("New game starting... \n");
-                return new Board("---------");
+                return new Board("Game Over");
             }
             return newBoard;
         }
@@ -51,9 +51,9 @@ public class Board {
 
     public ArrayList availablePositions() {
         ArrayList<Integer> positions = new ArrayList<>();
-        for (int i=0; i < dimension; i++) {
+        for (int i=1; i < dimension; i++) {
             if (state.charAt(i) == '-') {
-                positions.add(i);
+                positions.add(i+1);
             }
         }
         return positions;

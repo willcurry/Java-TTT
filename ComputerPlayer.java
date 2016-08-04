@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ComputerPlayer implements Player {
@@ -16,8 +17,9 @@ public class ComputerPlayer implements Player {
 
     @Override
     public Integer nextMove(Board board) {
-        int index = randInt(0, board.availablePositions().size());
-        return (int) board.availablePositions().get(index);
+        ArrayList availiblePositions = board.availablePositions();
+        int index = randInt(2, availiblePositions.size());
+        return (int) availiblePositions.get(index - 1);
     }
 
     @Override
