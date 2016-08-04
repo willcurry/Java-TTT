@@ -1,6 +1,5 @@
 import org.junit.Test;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import static org.hamcrest.core.Is.is;
@@ -12,7 +11,8 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("-o-------"));
+        game.assignPlayers();
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
     }
 
     @Test
@@ -20,8 +20,9 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("-o-------"));
-        assertThat(game.playerMakesMove().getState(), is("-ox------"));
+        game.assignPlayers();
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
+        assertThat(game.playerMakesMove().getState(), is("-xo------"));
     }
 
     @Test
@@ -29,8 +30,9 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2\n2".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("-o-------"));
-        assertThat(game.playerMakesMove().getState(), is("-o-------"));
+        game.assignPlayers();
+        game.playerMakesMove();
+        assertThat(game.playerMakesMove().getState(), is("-x-------"));
     }
 
 
@@ -39,8 +41,8 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("x--------");
         Game game = new Game(stream, board);
-        game.playerMakesMove();
-        assertThat(game.getTurn(), is('x'));
+        game.assignPlayers();
+        assertThat(game.playerMakesMove().getState(), is("xx-------"));
     }
 
     @Test
@@ -48,23 +50,26 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         Board board = new Board("o--------");
         Game game = new Game(stream, board);
+        game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("o--------"));
     }
 
     @Test
-    public void newGameStartsAfterWin() {
+    public void gameEndsAfterWin() {
         InputStream stream = new ByteArrayInputStream("3".getBytes());
-        Board board = new Board("oo-------");
+        Board board = new Board("xx-------");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("---------"));
+        game.assignPlayers();
+        assertThat(game.playerMakesMove().getState(), is("Game Over"));
     }
 
     @Test
-    public void newGameStartsAfterDraw() {
+    public void gameEndsAfterDraw() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
         Game game = new Game(stream, board);
-        assertThat(game.playerMakesMove().getState(), is("---------"));
+        game.assignPlayers();
+        assertThat(game.playerMakesMove().getState(), is("Game Over"));
     }
 
     @Test
@@ -72,6 +77,7 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
         Game game = new Game(stream, board);
+        game.assignPlayers();
         assertThat(game.showBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
     }
 
@@ -80,14 +86,16 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("-1".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
+        game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 
     @Test
     public void cannotGoInHigherThenMaxLength() {
-        InputStream stream = new ByteArrayInputStream("10".getBytes());
+        InputStream stream = new ByteArrayInputStream("11".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
+        game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 }

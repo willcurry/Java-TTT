@@ -16,11 +16,7 @@ public class Board {
     }
 
      public Boolean availablePosition(int position) {
-        if ( position >= 0 && position < dimension && state.charAt(position) == '-') {
-            return true;
-        }
-        System.out.println("Not a valid position");
-        return false;
+         return position >= 0 && position <= dimension && state.charAt(position) == '-';
     }
 
     public Board playerMakesMove(char player, int position) {
@@ -31,7 +27,7 @@ public class Board {
             if (newBoard.checkForWin(player)) {
                 System.out.print(player + " has won this game! \n");
                 System.out.print("New game starting... \n");
-                return new Board("---------");
+                return new Board("Game Over");
             }
             return newBoard;
         }
@@ -57,7 +53,7 @@ public class Board {
         ArrayList<Integer> positions = new ArrayList<>();
         for (int i=0; i < dimension; i++) {
             if (state.charAt(i) == '-') {
-                positions.add(i);
+                positions.add(i+1);
             }
         }
         return positions;
