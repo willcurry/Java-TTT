@@ -3,20 +3,21 @@ import java.util.Scanner;
 
 public class HumanPlayer implements Player{
 
-    private final InputStream stream;
     private final Scanner scanner;
     private final char mark;
 
     public HumanPlayer(InputStream stream, char mark) {
-        this.stream = stream;
         this.scanner = new Scanner(stream);
         this.mark = mark;
     }
 
     @Override
     public Integer nextMove(Board board) {
-        int position = scanner.nextInt();
-        return position;
+        while (!scanner.hasNextInt()) {
+            System.out.println(scanner.next() + " is not valid!");
+            if (scanner.hasNextInt()) break;
+        }
+        return scanner.nextInt();
     }
 
     @Override

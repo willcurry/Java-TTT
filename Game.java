@@ -1,5 +1,4 @@
 import java.io.InputStream;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -32,18 +31,17 @@ public class Game {
 
     public Board playerMakesMove() {
         int position = playerActive.nextMove(board);
-        if (!board.availablePosition(position - 1)) {
-            print("Invalid Position");
+        if (board.availablePosition(position - 1)) {
+            board = board.playerMakesMove(playerActive.getMark(), position - 1);
+            switchTurn();
+            print("-----------------");
+            print("Its your turn " + playerActive.getMark() + "!");
+            print("-----------------");
+            showBoard(board);
+            print("-----------------");
             return board;
         }
-        board = board.playerMakesMove(playerActive.getMark(), position - 1);
-
-        switchTurn();
-        print("-----------------");
-        print("Its your turn " + playerActive.getMark() + "!");
-        print("-----------------");
-        showBoard(board);
-        print("-----------------");
+        print("Invalid Position");
         return board;
     }
 
