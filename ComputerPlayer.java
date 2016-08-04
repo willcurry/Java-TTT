@@ -9,21 +9,21 @@ public class ComputerPlayer implements Player {
         this.mark = mark;
     }
 
-    public static int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
-    }
-
     @Override
     public Integer nextMove(Board board) {
-        ArrayList availiblePositions = board.availablePositions();
-        int index = randInt(2, availiblePositions.size());
-        return (int) availiblePositions.get(index - 1);
+        ArrayList availblePositions = board.availablePositions();
+        int index = randInt(1, availblePositions.size());
+        return (int) availblePositions.get(index - 1);
     }
 
     @Override
     public char getMark() {
         return mark;
+    }
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return randomNum;
     }
 }

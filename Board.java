@@ -51,7 +51,7 @@ public class Board {
 
     public ArrayList availablePositions() {
         ArrayList<Integer> positions = new ArrayList<>();
-        for (int i=1; i < dimension; i++) {
+        for (int i=0; i < dimension; i++) {
             if (state.charAt(i) == '-') {
                 positions.add(i+1);
             }

@@ -14,8 +14,8 @@ public class HumanPlayer implements Player{
     @Override
     public Integer nextMove(Board board) {
         while (!scanner.hasNextInt()) {
-            System.out.println(scanner.next() + " is not valid!");
             if (scanner.hasNextInt()) break;
+            System.out.println(scanner.next() + " is not valid!");
         }
         return scanner.nextInt();
     }
