@@ -65,6 +65,7 @@ public class Game {
         while (!board.checkForDraw() || !board.getState().equals("Game Over")) {
             board = playerMakesMove();
         }
+        System.out.print(playerActive + " has won this game! \n");
     }
 
     public enum Gamemodes {
