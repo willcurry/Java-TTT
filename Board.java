@@ -57,4 +57,8 @@ public class Board {
         return positions;
     }
 
+    public boolean isGameOver() {
+        return getState().equals("Game Over");
+    }
+
 }

@@ -60,7 +60,7 @@ public class Game {
         assignPlayers();
         consoleGame.drawNewGame();
 
-        while (!board.checkForDraw() || !board.getState().equals("Game Over")) {
+        while (!board.checkForDraw() || !board.isGameOver()){
             board = playerMakesMove();
         }
         System.out.println(playerActive + " has won this game!");
