@@ -28,7 +28,7 @@ public class GameTests {
     @Test
     public void doesNotOverwriteMove() {
         InputStream stream = new ByteArrayInputStream("2\n2".getBytes());
-        Board board = new Board("---------");
+        Board board = new Board("-x-------");
         Game game = new Game(stream, board);
         game.assignPlayers();
         game.playerMakesMove();

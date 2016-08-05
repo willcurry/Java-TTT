@@ -25,8 +25,6 @@ public class Board {
             currentBoard.setCharAt(position, player);
             Board newBoard = new Board(currentBoard.toString());
             if (newBoard.checkForWin(player)) {
-                System.out.print(player + " has won this game! \n");
-                System.out.print("New game starting... \n");
                 return new Board("Game Over");
             }
             return newBoard;

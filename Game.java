@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Game {
@@ -8,6 +10,7 @@ public class Game {
     private String gameMode = "pvp";
     private Player playerActive;
     private Player playerDeactive;
+    private BufferedReader inputReader;
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
@@ -47,11 +50,12 @@ public class Game {
 
     public void assignPlayers() {
         if (gameMode.equals("pvp")) {
-            playerActive = new HumanPlayer(stream, 'x');
-            playerDeactive = new HumanPlayer(stream, 'o');
+            inputReader = new BufferedReader(new InputStreamReader(stream));
+            playerActive = new HumanPlayer(inputReader, 'x');
+            playerDeactive = new HumanPlayer(inputReader, 'o');
         } else if (gameMode.equals("pvc")) {
             playerActive = new ComputerPlayer('x');
-            playerDeactive = new HumanPlayer(stream, 'o');
+            playerDeactive = new HumanPlayer(inputReader, 'o');
         } else {
             playerActive = new ComputerPlayer('x');
             playerDeactive = new ComputerPlayer('o');
@@ -65,6 +69,7 @@ public class Game {
         while (!board.checkForDraw() || !board.getState().equals("Game Over")) {
             board = playerMakesMove();
         }
+        System.out.println(playerActive + " has won this game!");
     }
 
     public enum Gamemodes {
