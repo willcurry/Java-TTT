@@ -7,10 +7,11 @@ public class Game {
 
     private InputStream stream;
     private Board board;
-    private String gameMode = "pvp";
+    public String gameMode = "pvp";
     private Player playerActive;
     private Player playerDeactive;
     private BufferedReader inputReader;
+    private ConsoleGame consoleGame = new ConsoleGame(this);
 
     public Game(InputStream stream, Board board) {
         this.stream = stream;
@@ -23,29 +24,22 @@ public class Game {
         playerDeactive = newActivePlayer;
     }
 
-    public void print(String text) {
-        System.out.println(text);
-    }
-
-    public String showBoard(Board board) {
-        print("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|");
-        return String.format("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|");
-    }
 
     public Board playerMakesMove() {
         int position = playerActive.nextMove(board);
         if (board.availablePosition(position - 1)) {
             board = board.playerMakesMove(playerActive.getMark(), position - 1);
             switchTurn();
-            print("-----------------");
-            print("Its your turn " + playerActive.getMark() + "!");
-            print("-----------------");
-            showBoard(board);
-            print("-----------------");
+            consoleGame.drawTurn();
+            consoleGame.drawBoard(board);
             return board;
         }
-        print(position + " is not a valid position!");
+        consoleGame.invalidGamemode();
         return board;
+    }
+
+    public Player playerActive() {
+        return playerActive;
     }
 
     public void assignPlayers() {
@@ -64,29 +58,16 @@ public class Game {
 
     public void playGame(Board board) {
         assignPlayers();
-        print(gameMode.toUpperCase() + " game is starting..");
-        print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+        consoleGame.drawNewGame();
+
         while (!board.checkForDraw() || !board.getState().equals("Game Over")) {
             board = playerMakesMove();
         }
         System.out.println(playerActive + " has won this game!");
     }
 
-    public enum Gamemodes {
-        PVP,
-        PVC,
-        CVC
-    }
-
-    public void displayAllGamemodes() {
-        print("Hello, what gamemode would you like?");
-        for (Gamemodes gm : Gamemodes.values()) {
-            print(gm.toString());
-        }
-    }
-
     public void pickGameMode() {
-        displayAllGamemodes();
+        consoleGame.displayAllGamemodes();
         Scanner s = new Scanner(System.in);
         String input = s.nextLine();
         for (Gamemodes gm : Gamemodes.values()) {
@@ -96,7 +77,7 @@ public class Game {
                 return;
             }
         }
-        print("You did not pick a valid gamemode.");
+        consoleGame.invalidGamemode();
     }
 
     public static void main(String[] args) {

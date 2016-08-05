@@ -77,8 +77,9 @@ public class GameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
         Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame(game);
         game.assignPlayers();
-        assertThat(game.showBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
+        assertThat(consoleGame.drawBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
     }
 
     @Test
