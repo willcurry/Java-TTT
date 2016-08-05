@@ -17,7 +17,7 @@ public class GameTests {
 
     @Test
     public void multiplePlayerMovesAreRegistered() {
-        InputStream stream = new ByteArrayInputStream("2\n 3".getBytes());
+        InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
         Board board = new Board("---------");
         Game game = new Game(stream, board);
         game.assignPlayers();
