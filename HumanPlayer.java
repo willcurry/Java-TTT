@@ -25,7 +25,7 @@ public class HumanPlayer implements Player {
     }
 
     private boolean validate(int nextPosition) {
-        return nextPosition >= 0 && nextPosition < 9;
+        return nextPosition >= 0 && nextPosition <= 9;
     }
 
     @Override

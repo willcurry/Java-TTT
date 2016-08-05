@@ -25,18 +25,22 @@ public class ConsoleGame {
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)");
     }
 
-    public void invalidMove(int position) {
-        print(position + " is not a valid position!");
+    public void invalidMove() {
+        print("That is not a valid position!");
     }
 
     public void displayAllGamemodes() {
         print("Hello, what gamemode would you like?");
         for (Gamemodes gm : Gamemodes.values()) {
-            print(gm.toString());
+            print(gm.toString() + " (" + gm.description() + ")");
         }
     }
 
     public void invalidGamemode() {
         print("You did not pick a valid gamemode.");
+    }
+
+    public void foundWinner() {
+        print("\n" + game.playerActive().getMark() + " has won the game!");
     }
 }

@@ -26,6 +26,8 @@ public class Board {
             Board newBoard = new Board(currentBoard.toString());
             if (newBoard.checkForWin(player)) {
                 return new Board("Game Over");
+            } else if (newBoard.checkForDraw()) {
+                return new Board("Draw");
             }
             return newBoard;
         }
@@ -44,7 +46,7 @@ public class Board {
                if (count == 3) return true;
            }
         }
-        return checkForDraw();
+        return false;
     }
 
     public ArrayList availablePositions() {

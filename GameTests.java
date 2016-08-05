@@ -66,10 +66,10 @@ public class GameTests {
     @Test
     public void gameEndsAfterDraw() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
-        Board board = new Board("xxooxxox-");
+        Board board = new Board("xxoxoxxo-");
         Game game = new Game(stream, board);
         game.assignPlayers();
-        assertThat(game.playerMakesMove().getState(), is("Game Over"));
+        assertThat(game.playerMakesMove().getState(), is("Draw"));
     }
 
     @Test

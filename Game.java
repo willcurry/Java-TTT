@@ -34,7 +34,7 @@ public class Game {
             consoleGame.drawBoard(board);
             return board;
         }
-        consoleGame.invalidGamemode();
+        consoleGame.invalidMove();
         return board;
     }
 
@@ -48,6 +48,7 @@ public class Game {
             playerActive = new HumanPlayer(inputReader, 'x');
             playerDeactive = new HumanPlayer(inputReader, 'o');
         } else if (gameMode.equals("pvc")) {
+            inputReader = new BufferedReader(new InputStreamReader(stream));
             playerActive = new ComputerPlayer('x');
             playerDeactive = new HumanPlayer(inputReader, 'o');
         } else {
@@ -59,11 +60,10 @@ public class Game {
     public void playGame(Board board) {
         assignPlayers();
         consoleGame.drawNewGame();
-
-        while (!board.checkForDraw() || !board.isGameOver()){
+        while (!board.isGameOver()){
             board = playerMakesMove();
         }
-        System.out.println(playerActive + " has won this game!");
+        consoleGame.foundWinner();
     }
 
     public void pickGameMode() {
