@@ -2,6 +2,9 @@ import java.io.*;
 
 public class ConsoleGame implements GameType {
 
+    byte[] stringByte;
+    ByteArrayOutputStream bos;
+
     public ConsoleGame() {
     }
 
@@ -19,8 +22,8 @@ public class ConsoleGame implements GameType {
     }
 
     public void print(String text) {
-        byte[] stringByte = text.getBytes();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(text.length());
+        stringByte = text.getBytes();
+        bos = new ByteArrayOutputStream(text.length());
         try {
             bos.write(stringByte);
             System.out.write(stringByte);

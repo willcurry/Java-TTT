@@ -20,13 +20,11 @@ public class Board {
     }
 
     public Board playerMakesMove(char player, int position) {
+        if (isGameOver()) return this;
         StringBuilder currentBoard = new StringBuilder(state);
         if (availablePosition(position)) {
             currentBoard.setCharAt(position, player);
             Board newBoard = new Board(currentBoard.toString());
-            if (newBoard.isGameOver()) {
-                return newBoard;
-            }
             return newBoard;
         }
         return this;
@@ -41,9 +39,7 @@ public class Board {
             int count = 0;
             for (int i=0; i < formation.length; i++) {
                if (state.charAt(formation[i]) == player) count += 1;
-               if (count == 3) {
-                   return true;
-               }
+               if (count == 3) return true;
            }
         }
         return false;

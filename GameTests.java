@@ -60,37 +60,18 @@ public class GameTests {
     }
 
     @Test
-    public void boardStateDoesntChangeAfterWin() {
-        InputStream stream = new ByteArrayInputStream("3".getBytes());
+    public void noFurtherMovesAcceptedAfterGameIsOver() {
+        InputStream stream = new ByteArrayInputStream("3\n4".getBytes());
         Board board = new Board("xx-------");
         ConsoleGame consoleGame = new ConsoleGame();
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("xxx------"));
+        assertThat(game.playerMakesMove().getState(), is("xxx------"));
     }
 
     @Test
-    public void boardStateDoesntChangeAfterDraw() {
-        InputStream stream = new ByteArrayInputStream("9".getBytes());
-        Board board = new Board("xxoxoxxo-");
-        ConsoleGame consoleGame = new ConsoleGame();
-        Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
-        assertThat(game.playerMakesMove().getState(), is("xxoxoxxox"));
-    }
-
-    @Test
-    public void boardIsDisplayedCorrectly() {
-        InputStream stream = new ByteArrayInputStream("9".getBytes());
-        Board board = new Board("xxooxxox-");
-        ConsoleGame consoleGame = new ConsoleGame();
-        Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
-        assertThat(consoleGame.drawBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
-    }
-
-    @Test
-    public void cannotGoInAPositionLowerThen0() {
+    public void positionBelowLowerBoundIsNotAccepted() {
         InputStream stream = new ByteArrayInputStream("-1".getBytes());
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame();
@@ -100,7 +81,7 @@ public class GameTests {
     }
 
     @Test
-    public void cannotGoInHigherThenMaxLength() {
+    public void positionGreaterThenBoardSizeIsNotAccepted() {
         InputStream stream = new ByteArrayInputStream("11".getBytes());
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame();
