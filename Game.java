@@ -80,6 +80,7 @@ public class Game {
             }
         }
         gameType.invalidGamemode();
+        pickGameMode();
     }
 
     public static void main(String[] args) {
