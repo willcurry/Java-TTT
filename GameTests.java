@@ -10,7 +10,8 @@ public class GameTests {
     public void playerMoveIsRegistered() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("---------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
     }
@@ -19,7 +20,8 @@ public class GameTests {
     public void multiplePlayerMovesAreRegistered() {
         InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
         Board board = new Board("---------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
         assertThat(game.playerMakesMove().getState(), is("-xo------"));
@@ -29,7 +31,8 @@ public class GameTests {
     public void doesNotOverwriteMove() {
         InputStream stream = new ByteArrayInputStream("2\n2".getBytes());
         Board board = new Board("-x-------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         game.playerMakesMove();
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
@@ -40,7 +43,8 @@ public class GameTests {
     public void gameKnowsWhoseTurnItIs() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
         Board board = new Board("x--------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("xx-------"));
     }
@@ -49,35 +53,38 @@ public class GameTests {
     public void playerCannotGoInUnavaliablePositions() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         Board board = new Board("o--------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("o--------"));
     }
 
     @Test
-    public void gameEndsAfterWin() {
+    public void boardStateDoesntChangeAfterWin() {
         InputStream stream = new ByteArrayInputStream("3".getBytes());
         Board board = new Board("xx-------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
-        assertThat(game.playerMakesMove().getState(), is("Game Over"));
+        assertThat(game.playerMakesMove().getState(), is("xxx------"));
     }
 
     @Test
-    public void gameEndsAfterDraw() {
+    public void boardStateDoesntChangeAfterDraw() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxoxoxxo-");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
-        assertThat(game.playerMakesMove().getState(), is("Draw"));
+        assertThat(game.playerMakesMove().getState(), is("xxoxoxxox"));
     }
 
     @Test
     public void boardIsDisplayedCorrectly() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
-        Game game = new Game(stream, board);
-        ConsoleGame consoleGame = new ConsoleGame(game);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(consoleGame.drawBoard(board), is("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|"));
     }
@@ -86,7 +93,8 @@ public class GameTests {
     public void cannotGoInAPositionLowerThen0() {
         InputStream stream = new ByteArrayInputStream("-1".getBytes());
         Board board = new Board("---------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }
@@ -95,7 +103,8 @@ public class GameTests {
     public void cannotGoInHigherThenMaxLength() {
         InputStream stream = new ByteArrayInputStream("11".getBytes());
         Board board = new Board("---------");
-        Game game = new Game(stream, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }

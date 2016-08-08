@@ -2,10 +2,13 @@ public enum Gamemodes {
     PVP("Player vs player"),
     PVC("Player vs computer"),
     CVC("Computer vs computer");
-    private Gamemodes(String description) {
+
+     Gamemodes(String description) {
         this.description = description;
     }
+
     private final String description;
+
     public String description() {
         return description;
     }

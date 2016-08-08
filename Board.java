@@ -24,10 +24,8 @@ public class Board {
         if (availablePosition(position)) {
             currentBoard.setCharAt(position, player);
             Board newBoard = new Board(currentBoard.toString());
-            if (newBoard.checkForWin(player)) {
-                return new Board("Game Over");
-            } else if (newBoard.checkForDraw()) {
-                return new Board("Draw");
+            if (newBoard.isGameOver()) {
+                return newBoard;
             }
             return newBoard;
         }
@@ -43,7 +41,9 @@ public class Board {
             int count = 0;
             for (int i=0; i < formation.length; i++) {
                if (state.charAt(formation[i]) == player) count += 1;
-               if (count == 3) return true;
+               if (count == 3) {
+                   return true;
+               }
            }
         }
         return false;
@@ -60,7 +60,7 @@ public class Board {
     }
 
     public boolean isGameOver() {
-        return getState().equals("Game Over");
+        return checkForWin('x') || checkForWin('o') || checkForDraw();
     }
 
 }

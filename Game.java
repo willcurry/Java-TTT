@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Scanner;
 
 public class Game {
@@ -11,11 +9,12 @@ public class Game {
     private Player playerActive;
     private Player playerDeactive;
     private BufferedReader inputReader;
-    private ConsoleGame consoleGame = new ConsoleGame(this);
+    private GameType gameType;
 
-    public Game(InputStream stream, Board board) {
+    public Game(InputStream stream, Board board, GameType gameType) {
         this.stream = stream;
         this.board = board;
+        this.gameType = gameType;
     }
 
     public void switchTurn() {
@@ -24,22 +23,25 @@ public class Game {
         playerDeactive = newActivePlayer;
     }
 
-
     public Board playerMakesMove() {
         int position = playerActive.nextMove(board);
         if (board.availablePosition(position - 1)) {
             board = board.playerMakesMove(playerActive.getMark(), position - 1);
             switchTurn();
-            consoleGame.drawTurn();
-            consoleGame.drawBoard(board);
+            gameType.drawTurn(this);
+            gameType.drawBoard(board);
             return board;
         }
-        consoleGame.invalidMove();
+        gameType.invalidMove();
         return board;
     }
 
     public Player playerActive() {
         return playerActive;
+    }
+
+    public Player playerDeactive() {
+        return playerDeactive;
     }
 
     public void assignPlayers() {
@@ -57,32 +59,33 @@ public class Game {
         }
     }
 
-    public void playGame(Board board) {
+    public void playGame() {
         assignPlayers();
-        consoleGame.drawNewGame();
+        gameType.drawNewGame(this);
         while (!board.isGameOver()){
             board = playerMakesMove();
         }
-        consoleGame.foundWinner();
+        gameType.gameIsOver(board, this);
     }
 
     public void pickGameMode() {
-        consoleGame.displayAllGamemodes();
+        gameType.displayAllGameModes();
         Scanner s = new Scanner(System.in);
         String input = s.nextLine();
         for (Gamemodes gm : Gamemodes.values()) {
             if (input.equals(gm.toString())) {
                 gameMode = input.toLowerCase();
-                playGame(board);
+                playGame();
                 return;
             }
         }
-        consoleGame.invalidGamemode();
+        gameType.invalidGamemode();
     }
 
     public static void main(String[] args) {
         Board board = new Board("---------");
-        Game game = new Game(System.in, board);
+        ConsoleGame consoleGame = new ConsoleGame();
+        Game game = new Game(System.in, board, consoleGame);
         game.pickGameMode();
     }
 }
