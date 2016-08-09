@@ -85,7 +85,8 @@ public class Game {
 
     public static void main(String[] args) {
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame();
+        Writer writer = new PrintWriter(System.out);
+        ConsoleGame consoleGame = new ConsoleGame(writer);
         Game game = new Game(System.in, board, consoleGame);
         game.pickGameMode();
     }

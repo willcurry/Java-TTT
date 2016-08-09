@@ -2,17 +2,15 @@ import java.io.*;
 
 public class ConsoleGame implements GameType {
 
-    byte[] stringByte;
-    ByteArrayOutputStream bos;
+    private final Writer writer;
 
-    public ConsoleGame() {
-
+    public ConsoleGame(Writer writer) {
+        this.writer = writer;
     }
 
     @Override
-    public String drawBoard(Board board) {
+    public void drawBoard(Board board) {
         print("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|\n");
-        return String.format("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|\n");
     }
 
     @Override
@@ -23,13 +21,11 @@ public class ConsoleGame implements GameType {
     }
 
     public void print(String text) {
-        stringByte = text.getBytes();
-        bos = new ByteArrayOutputStream(text.length());
         try {
-            bos.write(stringByte);
-            System.out.write(stringByte);
-        } catch (IOException e) {
-            e.printStackTrace();
+            writer.write(text);
+            writer.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

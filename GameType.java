@@ -1,5 +1,5 @@
 public interface GameType {
-    String drawBoard(Board board);
+    void drawBoard(Board board);
     void drawTurn(Game game);
     void drawNewGame(Game game);
     void invalidMove();
