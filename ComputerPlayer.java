@@ -12,8 +12,8 @@ public class ComputerPlayer implements Player {
     @Override
     public Integer nextMove(Board board) {
         ArrayList availblePositions = board.availablePositions();
-        int index = randInt(1, availblePositions.size());
-        return (int) availblePositions.get(index - 1);
+        int index = randInt(0, availblePositions.size() - 1);
+        return (int) availblePositions.get(index);
     }
 
     @Override

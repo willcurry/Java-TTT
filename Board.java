@@ -20,13 +20,11 @@ public class Board {
     }
 
     public Board playerMakesMove(char player, int position) {
+        if (isGameOver()) return this;
         StringBuilder currentBoard = new StringBuilder(state);
         if (availablePosition(position)) {
             currentBoard.setCharAt(position, player);
             Board newBoard = new Board(currentBoard.toString());
-            if (newBoard.checkForWin(player)) {
-                return new Board("Game Over");
-            }
             return newBoard;
         }
         return this;
@@ -44,7 +42,7 @@ public class Board {
                if (count == 3) return true;
            }
         }
-        return checkForDraw();
+        return false;
     }
 
     public ArrayList availablePositions() {
@@ -55,6 +53,10 @@ public class Board {
             }
         }
         return positions;
+    }
+
+    public boolean isGameOver() {
+        return checkForWin('x') || checkForWin('o') || checkForDraw();
     }
 
 }
