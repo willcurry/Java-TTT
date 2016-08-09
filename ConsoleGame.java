@@ -14,9 +14,9 @@ public class ConsoleGame implements GameType {
     }
 
     @Override
-    public void drawTurn(Game game) {
+    public void drawTurn(Player player) {
         print("----------------- \n");
-        print("Its your turn " + game.playerActive().getMark() + "!\n");
+        print("Its your turn " + player.getMark() + "!\n");
         print("----------------- \n");
     }
 
@@ -54,11 +54,11 @@ public class ConsoleGame implements GameType {
     }
 
     @Override
-    public void gameIsOver(Board board, Game game) {
+    public void gameIsOver(Board board, Player winner) {
         if (!board.checkForWin('x') && !board.checkForWin('o')) {
             print("Draw!\n");
             return;
         }
-        print("\n" + game.playerDeactive().getMark() + " has won the game!\n");
+        print("\n" + winner.getMark() + " has won the game!\n");
     }
 }

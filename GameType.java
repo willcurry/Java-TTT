@@ -1,9 +1,9 @@
 public interface GameType {
     void drawBoard(Board board);
-    void drawTurn(Game game);
+    void drawTurn(Player player);
     void drawNewGame(Game game);
     void invalidMove();
     void displayAllGameModes();
     void invalidGamemode();
-    void gameIsOver(Board board, Game game);
+    void gameIsOver(Board board, Player winner);
 }

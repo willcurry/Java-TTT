@@ -70,7 +70,8 @@ public class ConsoleGameTests {
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         game.playerMakesMove();
-        consoleGame.gameIsOver(board, game);
+        Player player = new ComputerPlayer('x');
+        consoleGame.gameIsOver(board,player);
         assertThat(output.toString(), containsString("x has won the game!"));
     }
 
@@ -81,7 +82,8 @@ public class ConsoleGameTests {
         ConsoleGame consoleGame = new ConsoleGame(writer);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
-        consoleGame.gameIsOver(board, game);
+        Player player = new ComputerPlayer('x');
+        consoleGame.gameIsOver(board,player);
         assertThat(output.toString(), containsString("Draw!"));
     }
 }

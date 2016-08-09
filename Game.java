@@ -28,20 +28,12 @@ public class Game {
         if (board.availablePosition(position - 1)) {
             board = board.playerMakesMove(playerActive.getMark(), position - 1);
             switchTurn();
-            gameType.drawTurn(this);
+            gameType.drawTurn(playerActive);
             gameType.drawBoard(board);
             return board;
         }
         gameType.invalidMove();
         return board;
-    }
-
-    public Player playerActive() {
-        return playerActive;
-    }
-
-    public Player playerDeactive() {
-        return playerDeactive;
     }
 
     public void assignPlayers() {
@@ -65,7 +57,7 @@ public class Game {
         while (!board.isGameOver()){
             board = playerMakesMove();
         }
-        gameType.gameIsOver(board, this);
+        gameType.gameIsOver(board, playerDeactive);
     }
 
     public void pickGameMode() {
