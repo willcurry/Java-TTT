@@ -6,6 +6,7 @@ public class ConsoleGame implements GameType {
     ByteArrayOutputStream bos;
 
     public ConsoleGame() {
+
     }
 
     @Override

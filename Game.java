@@ -73,7 +73,7 @@ public class Game {
         Scanner s = new Scanner(System.in);
         String input = s.nextLine();
         for (Gamemodes gm : Gamemodes.values()) {
-            if (input.equals(gm.toString())) {
+            if (input.equals(gm.toString().toLowerCase()) || input.equals(gm.toString())) {
                 gameMode = input.toLowerCase();
                 playGame();
                 return;
