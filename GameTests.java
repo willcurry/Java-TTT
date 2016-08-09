@@ -1,9 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.Writer;
+
+import java.io.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -20,8 +18,9 @@ public class GameTests {
     @Test
     public void playerMoveIsRegistered() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
@@ -30,8 +29,9 @@ public class GameTests {
     @Test
     public void multiplePlayerMovesAreRegistered() {
         InputStream stream = new ByteArrayInputStream("2\n3".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
@@ -41,8 +41,9 @@ public class GameTests {
     @Test
     public void doesNotOverwriteMove() {
         InputStream stream = new ByteArrayInputStream("2\n2".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("-x-------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         game.playerMakesMove();
@@ -53,8 +54,9 @@ public class GameTests {
     @Test
     public void gameKnowsWhoseTurnItIs() {
         InputStream stream = new ByteArrayInputStream("2".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("x--------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("xx-------"));
@@ -63,8 +65,9 @@ public class GameTests {
     @Test
     public void playerCannotGoInUnavaliablePositions() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("o--------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("o--------"));
@@ -73,8 +76,9 @@ public class GameTests {
     @Test
     public void noFurtherMovesAcceptedAfterGameIsOver() {
         InputStream stream = new ByteArrayInputStream("3\n4".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("xx-------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("xxx------"));
@@ -84,8 +88,9 @@ public class GameTests {
     @Test
     public void positionBelowLowerBoundIsNotAccepted() {
         InputStream stream = new ByteArrayInputStream("-1".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("---------"));
@@ -94,8 +99,9 @@ public class GameTests {
     @Test
     public void positionGreaterThenBoardSizeIsNotAccepted() {
         InputStream stream = new ByteArrayInputStream("11".getBytes());
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         assertThat(game.playerMakesMove().getState(), is("---------"));

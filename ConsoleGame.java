@@ -1,16 +1,29 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class ConsoleGame implements GameType {
 
     private final Writer writer;
+    private BufferedReader reader;
 
-    public ConsoleGame(Writer writer) {
+    public ConsoleGame(Writer writer, BufferedReader reader) {
         this.writer = writer;
+        this.reader = reader;
     }
 
     @Override
     public void drawBoard(Board board) {
         print("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|\n");
+    }
+
+    @Override
+    public String userInput() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Invalid";
     }
 
     @Override
@@ -60,5 +73,11 @@ public class ConsoleGame implements GameType {
             return;
         }
         print("\n" + winner.getMark() + " has won the game!\n");
+    }
+
+    @Override
+    public String userPickGameMode() {
+        Scanner s = new Scanner(System.in);
+        return s.nextLine();
     }
 }
