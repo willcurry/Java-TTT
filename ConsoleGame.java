@@ -44,8 +44,8 @@ public class ConsoleGame implements GameType {
     }
 
     @Override
-    public void drawNewGame(Game game) {
-        print(game.gameMode.toUpperCase() + " game is starting..\n");
+    public void drawNewGame(String gameMode) {
+        print(gameMode.toUpperCase() + " game is starting..\n");
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)\n");
     }
 

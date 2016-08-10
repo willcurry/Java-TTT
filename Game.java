@@ -4,7 +4,6 @@ public class Game {
 
     private InputStream reader;
     private Board board;
-    public String gameMode = "pvp";
     private Player playerActive;
     private Player playerDeactive;
     private GameType gameType;
@@ -34,7 +33,7 @@ public class Game {
         return board;
     }
 
-    public void assignPlayers() {
+    public void assignPlayers(String gameMode) {
         if (gameMode.equals("pvp")) {
             playerActive = new HumanPlayer('x', gameType);
             playerDeactive = new HumanPlayer('o', gameType);
@@ -47,9 +46,9 @@ public class Game {
         }
     }
 
-    public void playGame() {
-        assignPlayers();
-        gameType.drawNewGame(this);
+    public void playGame(String gameMode) {
+        assignPlayers(gameMode);
+        gameType.drawNewGame(gameMode);
         while (!board.isGameOver()){
             board = playerMakesMove();
         }
@@ -59,8 +58,7 @@ public class Game {
 
     public void pickGameMode() {
         gameType.displayAllGameModes();
-        gameMode = gameType.userPickGameMode();
-        playGame();
+        playGame(gameType.userPickGameMode());
         pickGameMode();
     }
 

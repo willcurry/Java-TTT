@@ -21,7 +21,7 @@ public class GameTests {
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
     }
 
@@ -31,7 +31,7 @@ public class GameTests {
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
         assertThat(game.playerMakesMove().getState(), is("-xo------"));
     }
@@ -42,7 +42,7 @@ public class GameTests {
         Board board = new Board("-x-------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         game.playerMakesMove();
         assertThat(game.playerMakesMove().getState(), is("-x-------"));
     }
@@ -54,7 +54,7 @@ public class GameTests {
         Board board = new Board("x--------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("xx-------"));
     }
 
@@ -64,7 +64,7 @@ public class GameTests {
         Board board = new Board("o--------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("o--------"));
     }
 
@@ -74,7 +74,7 @@ public class GameTests {
         Board board = new Board("xx-------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("xxx------"));
         assertThat(game.playerMakesMove().getState(), is("xxx------"));
     }
@@ -85,7 +85,7 @@ public class GameTests {
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 
@@ -95,7 +95,7 @@ public class GameTests {
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         assertThat(game.playerMakesMove().getState(), is("---------"));
     }
 }
