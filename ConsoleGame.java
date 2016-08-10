@@ -1,14 +1,15 @@
 import java.io.*;
-import java.util.Scanner;
 
 public class ConsoleGame implements GameType {
 
     private final Writer writer;
+    private InputStream stream;
     private BufferedReader reader;
 
-    public ConsoleGame(Writer writer, BufferedReader reader) {
+    public ConsoleGame(Writer writer, InputStream stream) {
         this.writer = writer;
-        this.reader = reader;
+        this.stream = stream;
+        reader = new BufferedReader(new InputStreamReader(stream));
     }
 
     @Override
@@ -62,11 +63,6 @@ public class ConsoleGame implements GameType {
     }
 
     @Override
-    public void invalidGamemode() {
-        print("You did not pick a valid gamemode.\n");
-    }
-
-    @Override
     public void gameIsOver(Board board, Player winner) {
         if (!board.checkForWin('x') && !board.checkForWin('o')) {
             print("Draw!\n");
@@ -77,7 +73,18 @@ public class ConsoleGame implements GameType {
 
     @Override
     public String userPickGameMode() {
-        Scanner s = new Scanner(System.in);
-        return s.nextLine();
+        String input = null;
+        try {
+            input = reader.readLine();
+            for (Gamemodes gm : Gamemodes.values()) {
+                if (input.equals(gm.toString().toLowerCase()) || input.equals(gm.toString())) {
+                    return input.toLowerCase();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        print("Invalid gamemode, please pick again! \n");
+        return userPickGameMode();
     }
 }

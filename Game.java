@@ -2,15 +2,15 @@ import java.io.*;
 
 public class Game {
 
-    private InputStream stream;
+    private InputStream reader;
     private Board board;
     public String gameMode = "pvp";
     private Player playerActive;
     private Player playerDeactive;
     private GameType gameType;
 
-    public Game(InputStream stream, Board board, GameType gameType) {
-        this.stream = stream;
+    public Game(InputStream reader, Board board, GameType gameType) {
+        this.reader = reader;
         this.board = board;
         this.gameType = gameType;
     }
@@ -59,23 +59,16 @@ public class Game {
 
     public void pickGameMode() {
         gameType.displayAllGameModes();
-        String input = gameType.userPickGameMode();
-        for (Gamemodes gm : Gamemodes.values()) {
-            if (input.equals(gm.toString().toLowerCase()) || input.equals(gm.toString())) {
-                gameMode = input.toLowerCase();
-                playGame();
-                return;
-            }
-        }
-        gameType.invalidGamemode();
+        gameMode = gameType.userPickGameMode();
+        playGame();
         pickGameMode();
     }
 
     public static void startNewGame() {
         Board board = new Board("---------");
         Writer writer = new PrintWriter(System.out);
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        InputStream reader = System.in;
+        ConsoleGame consoleGame = new ConsoleGame(writer, reader);
         Game game = new Game(System.in, board, consoleGame);
         game.pickGameMode();
     }

@@ -20,9 +20,8 @@ public class ConsoleGameTests {
     @Test
     public void boardIsDisplayedCorrectly() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("xxooxxox-");
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         consoleGame.drawBoard(board);
@@ -34,7 +33,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         game.playerMakesMove();
@@ -46,7 +45,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         consoleGame.drawNewGame(game);
         assertThat(output.toString(), containsString("game is starting.."));
@@ -58,7 +57,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         consoleGame.displayAllGameModes();
         for (Gamemodes gm : Gamemodes.values()) {
@@ -71,7 +70,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("xxooxxox-");
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         game.playerMakesMove();
@@ -85,7 +84,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("lllllllll");
-        ConsoleGame consoleGame = new ConsoleGame(writer, inputReader);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers();
         Player player = new ComputerPlayer('x');
