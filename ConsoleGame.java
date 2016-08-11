@@ -57,7 +57,7 @@ public class ConsoleGame implements GameType {
     @Override
     public void displayAllGameModes() {
         print("Hello, what gamemode would you like?\n");
-        for (Gamemodes gm : Gamemodes.values()) {
+        for (GameModes gm : GameModes.values()) {
             print(gm.toString() + " (" + gm.description() + ")\n");
         }
     }
@@ -76,7 +76,7 @@ public class ConsoleGame implements GameType {
         String input = null;
         try {
             input = reader.readLine();
-            for (Gamemodes gm : Gamemodes.values()) {
+            for (GameModes gm : GameModes.values()) {
                 if (input.equals(gm.toString().toLowerCase()) || input.equals(gm.toString())) {
                     return input.toLowerCase();
                 }

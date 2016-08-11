@@ -31,7 +31,6 @@ public class ConsoleGameTests {
     @Test
     public void displaysWhosTurnItIsCorrectly() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
@@ -43,7 +42,6 @@ public class ConsoleGameTests {
     @Test
     public void displaysStartOfGameInfoAtTheStartOfAGame() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
@@ -55,12 +53,11 @@ public class ConsoleGameTests {
     @Test
     public void displaysAllGameModesCorrectly() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         consoleGame.displayAllGameModes();
-        for (Gamemodes gm : Gamemodes.values()) {
+        for (GameModes gm : GameModes.values()) {
             assertThat(output.toString(), containsString(gm.toString()));
         }
     }
@@ -68,7 +65,6 @@ public class ConsoleGameTests {
     @Test
     public void displaysWhoWonWhenGameEndsFromWin() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("xxooxxox-");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
@@ -82,7 +78,6 @@ public class ConsoleGameTests {
     @Test
     public void displaysDrawWhenGameEndsFromDraw() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(stream));
         Board board = new Board("lllllllll");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
