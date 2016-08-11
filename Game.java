@@ -34,16 +34,9 @@ public class Game {
     }
 
     public void assignPlayers(String gameMode) {
-        if (gameMode.equals("pvp")) {
-            playerActive = new HumanPlayer('x', gameType);
-            playerDeactive = new HumanPlayer('o', gameType);
-        } else if (gameMode.equals("pvc")) {
-            playerActive = new ComputerPlayer('x');
-            playerDeactive = new HumanPlayer('o', gameType);
-        } else {
-            playerActive = new ComputerPlayer('x');
-            playerDeactive = new ComputerPlayer('o');
-        }
+        Player[] pair = PlayerFactory.createPair(gameMode, gameType);
+        playerActive = pair[0];
+        playerDeactive = pair[1];
     }
 
     public void playGame(String gameMode) {
