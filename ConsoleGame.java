@@ -3,14 +3,28 @@ import java.io.*;
 public class ConsoleGame implements GameType {
 
     private final Writer writer;
+    private InputStream stream;
+    private BufferedReader reader;
 
-    public ConsoleGame(Writer writer) {
+    public ConsoleGame(Writer writer, InputStream stream) {
         this.writer = writer;
+        this.stream = stream;
+        reader = new BufferedReader(new InputStreamReader(stream));
     }
 
     @Override
     public void drawBoard(Board board) {
         print("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|\n");
+    }
+
+    @Override
+    public String userInput() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Invalid";
     }
 
     @Override
@@ -30,8 +44,8 @@ public class ConsoleGame implements GameType {
     }
 
     @Override
-    public void drawNewGame(Game game) {
-        print(game.gameMode.toUpperCase() + " game is starting..\n");
+    public void drawNewGame(String gameMode) {
+        print(gameMode.toUpperCase() + " game is starting..\n");
         print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)\n");
     }
 
@@ -43,14 +57,9 @@ public class ConsoleGame implements GameType {
     @Override
     public void displayAllGameModes() {
         print("Hello, what gamemode would you like?\n");
-        for (Gamemodes gm : Gamemodes.values()) {
+        for (GameModes gm : GameModes.values()) {
             print(gm.toString() + " (" + gm.description() + ")\n");
         }
-    }
-
-    @Override
-    public void invalidGamemode() {
-        print("You did not pick a valid gamemode.\n");
     }
 
     @Override
@@ -60,5 +69,22 @@ public class ConsoleGame implements GameType {
             return;
         }
         print("\n" + winner.getMark() + " has won the game!\n");
+    }
+
+    @Override
+    public String userPickGameMode() {
+        String input = null;
+        try {
+            input = reader.readLine();
+            for (GameModes gm : GameModes.values()) {
+                if (input.equals(gm.toString().toLowerCase()) || input.equals(gm.toString())) {
+                    return input.toLowerCase();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        print("Invalid gamemode, please pick again! \n");
+        return userPickGameMode();
     }
 }

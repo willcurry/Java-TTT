@@ -1,31 +1,22 @@
-import java.io.BufferedReader;
-
 public class HumanPlayer implements Player {
 
     private final char mark;
-    private final BufferedReader inputReader;
+    private final GameType gameType;
 
-    public HumanPlayer(BufferedReader inputReader, char mark) {
-        this.inputReader = inputReader;
+    public HumanPlayer(char mark, GameType gameType) {
         this.mark = mark;
+        this.gameType = gameType;
     }
 
     @Override
     public Integer nextMove(Board board) {
         int nextPosition = -1;
-        while (!validate(nextPosition)) {
-            try {
-                String line = inputReader.readLine();
-                nextPosition = Integer.parseInt(line);
-            } catch (Exception e) {
-                return nextPosition;
-            }
+        try {
+            nextPosition = Integer.parseInt(gameType.userInput());
+        } catch (Exception e) {
+            return nextPosition;
         }
         return nextPosition;
-    }
-
-    private boolean validate(int nextPosition) {
-        return nextPosition >= 0 && nextPosition <= 9;
     }
 
     @Override

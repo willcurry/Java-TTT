@@ -1,18 +1,15 @@
 import java.io.*;
-import java.util.Scanner;
 
 public class Game {
 
-    private InputStream stream;
+    private InputStream reader;
     private Board board;
-    public String gameMode = "pvp";
     private Player playerActive;
     private Player playerDeactive;
-    private BufferedReader inputReader;
     private GameType gameType;
 
-    public Game(InputStream stream, Board board, GameType gameType) {
-        this.stream = stream;
+    public Game(InputStream reader, Board board, GameType gameType) {
+        this.reader = reader;
         this.board = board;
         this.gameType = gameType;
     }
@@ -36,50 +33,38 @@ public class Game {
         return board;
     }
 
-    public void assignPlayers() {
-        if (gameMode.equals("pvp")) {
-            inputReader = new BufferedReader(new InputStreamReader(stream));
-            playerActive = new HumanPlayer(inputReader, 'x');
-            playerDeactive = new HumanPlayer(inputReader, 'o');
-        } else if (gameMode.equals("pvc")) {
-            inputReader = new BufferedReader(new InputStreamReader(stream));
-            playerActive = new ComputerPlayer('x');
-            playerDeactive = new HumanPlayer(inputReader, 'o');
-        } else {
-            playerActive = new ComputerPlayer('x');
-            playerDeactive = new ComputerPlayer('o');
-        }
+    public void assignPlayers(String gameMode) {
+        Player[] pair = PlayerFactory.createPair(gameMode, gameType);
+        playerActive = pair[0];
+        playerDeactive = pair[1];
     }
 
-    public void playGame() {
-        assignPlayers();
-        gameType.drawNewGame(this);
+    public void playGame(String gameMode) {
+        assignPlayers(gameMode);
+        gameType.drawNewGame(gameMode);
         while (!board.isGameOver()){
             board = playerMakesMove();
         }
         gameType.gameIsOver(board, playerDeactive);
+        startNewGame();
     }
 
     public void pickGameMode() {
         gameType.displayAllGameModes();
-        Scanner s = new Scanner(System.in);
-        String input = s.nextLine();
-        for (Gamemodes gm : Gamemodes.values()) {
-            if (input.equals(gm.toString().toLowerCase()) || input.equals(gm.toString())) {
-                gameMode = input.toLowerCase();
-                playGame();
-                return;
-            }
-        }
-        gameType.invalidGamemode();
+        playGame(gameType.userPickGameMode());
         pickGameMode();
     }
 
-    public static void main(String[] args) {
+    public static void startNewGame() {
         Board board = new Board("---------");
         Writer writer = new PrintWriter(System.out);
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        InputStream reader = System.in;
+        ConsoleGame consoleGame = new ConsoleGame(writer, reader);
         Game game = new Game(System.in, board, consoleGame);
         game.pickGameMode();
+    }
+
+    public static void main(String[] args) {
+        startNewGame();
     }
 }

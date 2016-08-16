@@ -21,9 +21,9 @@ public class ConsoleGameTests {
     public void boardIsDisplayedCorrectly() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         consoleGame.drawBoard(board);
         assertThat(output.toString(), containsString("|xxo|\n|oxx|\n|ox-|"));
     }
@@ -32,9 +32,9 @@ public class ConsoleGameTests {
     public void displaysWhosTurnItIsCorrectly() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         game.playerMakesMove();
         assertThat(output.toString(), containsString("Its your turn o!"));
     }
@@ -43,9 +43,9 @@ public class ConsoleGameTests {
     public void displaysStartOfGameInfoAtTheStartOfAGame() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        consoleGame.drawNewGame(game);
+        consoleGame.drawNewGame("pvp");
         assertThat(output.toString(), containsString("game is starting.."));
         assertThat(output.toString(), containsString("Where would you like to go?"));
     }
@@ -54,10 +54,10 @@ public class ConsoleGameTests {
     public void displaysAllGameModesCorrectly() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         Board board = new Board("---------");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
         consoleGame.displayAllGameModes();
-        for (Gamemodes gm : Gamemodes.values()) {
+        for (GameModes gm : GameModes.values()) {
             assertThat(output.toString(), containsString(gm.toString()));
         }
     }
@@ -66,9 +66,9 @@ public class ConsoleGameTests {
     public void displaysWhoWonWhenGameEndsFromWin() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         game.playerMakesMove();
         Player player = new ComputerPlayer('x');
         consoleGame.gameIsOver(board,player);
@@ -79,9 +79,9 @@ public class ConsoleGameTests {
     public void displaysDrawWhenGameEndsFromDraw() {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("lllllllll");
-        ConsoleGame consoleGame = new ConsoleGame(writer);
+        ConsoleGame consoleGame = new ConsoleGame(writer, stream);
         Game game = new Game(stream, board, consoleGame);
-        game.assignPlayers();
+        game.assignPlayers("pvp");
         Player player = new ComputerPlayer('x');
         consoleGame.gameIsOver(board,player);
         assertThat(output.toString(), containsString("Draw!"));

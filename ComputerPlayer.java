@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class ComputerPlayer implements Player {
 
@@ -13,6 +14,11 @@ public class ComputerPlayer implements Player {
     public Integer nextMove(Board board) {
         ArrayList availblePositions = board.availablePositions();
         int index = randInt(0, availblePositions.size() - 1);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return (int) availblePositions.get(index);
     }
 
