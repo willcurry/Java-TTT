@@ -3,12 +3,11 @@ import java.io.*;
 public class ConsoleGame implements GameType {
 
     private final Writer writer;
-    private InputStream stream;
     private BufferedReader reader;
 
     public ConsoleGame(Writer writer, InputStream stream) {
         this.writer = writer;
-        this.stream = stream;
+        InputStream inputStream = stream;
         reader = new BufferedReader(new InputStreamReader(stream));
     }
 
@@ -63,12 +62,10 @@ public class ConsoleGame implements GameType {
     }
 
     @Override
-    public void gameIsOver(Board board, Player winner) {
-        if (!board.checkForWin('x') && !board.checkForWin('o')) {
-            print("Draw!\n");
-            return;
+    public void gameIsOver(Board board) {
+        if (!board.isGameOver()) {
+            print(board.getWinner() == null ? "Draw!" : board.getWinner() + " has won the game1");
         }
-        print("\n" + winner.getMark() + " has won the game!\n");
     }
 
     @Override

@@ -45,7 +45,7 @@ public class Game {
         while (!board.isGameOver()){
             board = playerMakesMove();
         }
-        gameType.gameIsOver(board, playerDeactive);
+        gameType.gameIsOver(board);
         startNewGame();
     }
 

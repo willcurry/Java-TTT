@@ -42,9 +42,7 @@ public class ConsoleGameTests {
     @Test
     public void displaysStartOfGameInfoAtTheStartOfAGame() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
-        Game game = new Game(stream, board, consoleGame);
         consoleGame.drawNewGame("pvp");
         assertThat(output.toString(), containsString("game is starting.."));
         assertThat(output.toString(), containsString("Where would you like to go?"));
@@ -53,9 +51,7 @@ public class ConsoleGameTests {
     @Test
     public void displaysAllGameModesCorrectly() {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
-        Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
-        Game game = new Game(stream, board, consoleGame);
         consoleGame.displayAllGameModes();
         for (GameModes gm : GameModes.values()) {
             assertThat(output.toString(), containsString(gm.toString()));
@@ -71,7 +67,7 @@ public class ConsoleGameTests {
         game.assignPlayers("pvp");
         game.playerMakesMove();
         Player player = new ComputerPlayer('x');
-        consoleGame.gameIsOver(board,player);
+        consoleGame.gameIsOver(board);
         assertThat(output.toString(), containsString("x has won the game!"));
     }
 
@@ -83,7 +79,7 @@ public class ConsoleGameTests {
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers("pvp");
         Player player = new ComputerPlayer('x');
-        consoleGame.gameIsOver(board,player);
+        consoleGame.gameIsOver(board);
         assertThat(output.toString(), containsString("Draw!"));
     }
 }
