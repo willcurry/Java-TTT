@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Board {
     private final String state;
-    private final int dimension;
+    public final int dimension;
 
     public Board(String state) {
         this.state = state;
@@ -31,10 +31,10 @@ public class Board {
     public String getWinner() {
         for (String combination : allWinningCombinations()) {
             if (!combination.contains("x") && !combination.contains("-")) {
-                return "x";
+                return "o";
             }
             if (!combination.contains("o") && !combination.contains("-")) {
-                return "o";
+                return "x";
             }
         }
         return null;

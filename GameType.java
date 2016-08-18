@@ -7,4 +7,5 @@ public interface GameType {
     void gameIsOver(Board board);
     String userPickGameMode();
     String userInput();
+    int userPickBoardSize();
 }

@@ -50,6 +50,7 @@ public class Game {
     }
 
     public void pickGameMode() {
+        this.board = createBoard(gameType.userPickBoardSize());
         gameType.displayAllGameModes();
         playGame(gameType.userPickGameMode());
         pickGameMode();
@@ -62,6 +63,14 @@ public class Game {
         ConsoleGame consoleGame = new ConsoleGame(writer, reader);
         Game game = new Game(System.in, board, consoleGame);
         game.pickGameMode();
+    }
+
+    public Board createBoard(int size) {
+        String state = "";
+        for (int i=0; i < size * size; i++) {
+            state += "-";
+        }
+        return new Board(state);
     }
 
     public static void main(String[] args) {

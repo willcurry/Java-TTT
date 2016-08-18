@@ -13,7 +13,13 @@ public class ConsoleGame implements GameType {
 
     @Override
     public void drawBoard(Board board) {
-        print("|" + board.getState().substring(0, 3) + "|\n|" + board.getState().substring(3, 6) + "|\n|" + board.getState().substring(6, 9) + "|\n");
+        for (int i=0; i < board.dimension * board.dimension; i+=board.dimension) {
+            String row = "";
+            for (int j=i; j < i + board.dimension; j++) {
+                row += board.getState().charAt(j);
+            }
+            print("|" + row + "|\n");
+        }
     }
 
     @Override
@@ -24,6 +30,18 @@ public class ConsoleGame implements GameType {
             e.printStackTrace();
         }
         return "Invalid";
+    }
+
+    @Override
+    public int userPickBoardSize() {
+        print("\033[31mWhat board size would you like? \n");
+        int size = -1;
+        try {
+            size = Integer.parseInt(userInput());
+        } catch (Exception e) {
+            return size;
+        }
+        return size;
     }
 
     @Override
@@ -44,8 +62,8 @@ public class ConsoleGame implements GameType {
 
     @Override
     public void drawNewGame(String gameMode) {
-        print(gameMode.toUpperCase() + " game is starting..\n");
-        print("Where would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)\n");
+        print("\033[36m" + gameMode.toUpperCase() + "\033[31m game is starting..\n");
+        print("\033[35mWhere would you like to go? (1, 2, 3, 4, 5, 6, 7, 8, 9)\n");
     }
 
     @Override
@@ -63,8 +81,8 @@ public class ConsoleGame implements GameType {
 
     @Override
     public void gameIsOver(Board board) {
-        if (!board.isGameOver()) {
-            print(board.getWinner() == null ? "Draw!" : board.getWinner() + " has won the game1");
+        if (board.isGameOver()) {
+            print(board.getWinner() == null ? "Draw!" : board.getWinner() + " has won the game! \n");
         }
     }
 
