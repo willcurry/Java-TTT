@@ -140,9 +140,9 @@ public class Board {
 
     public ArrayList availablePositions() {
         ArrayList<Integer> positions = new ArrayList<>();
-        for (int i=0; i < state.length(); i++) {
+        for (int i=0; i < dimension * 3; i++) {
             if (state.charAt(i) == '-') {
-                positions.add(i);
+                positions.add(i + 1);
             }
         }
         return positions;

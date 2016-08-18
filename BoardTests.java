@@ -73,7 +73,7 @@ public class BoardTests {
         ArrayList<Integer> positions = board.availablePositions();
         for (int i=0; i < positions.size(); i++) {
             int position = positions.get(i);
-            assertThat(board.availablePosition(position), is(true));
+            assertThat(board.availablePosition(position - 1), is(true));
         }
     }
 
