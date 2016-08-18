@@ -82,7 +82,7 @@ public class ConsoleGame implements GameType {
     @Override
     public void gameIsOver(Board board) {
         if (board.isGameOver()) {
-            print(board.getWinner() == null ? "Draw!" : board.getWinner() + " has won the game! \n");
+            print(board.getWinner() == null ? "Draw! \n" : board.getWinner() + " has won the game! \n");
         }
     }
 
