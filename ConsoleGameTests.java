@@ -66,7 +66,6 @@ public class ConsoleGameTests {
         Game game = new Game(stream, board, consoleGame);
         game.assignPlayers("pvp");
         game.playerMakesMove();
-        Player player = new ComputerPlayer('x');
         consoleGame.gameIsOver(board);
         assertThat(output.toString(), containsString("x has won the game!"));
     }

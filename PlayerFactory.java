@@ -9,10 +9,14 @@ public class PlayerFactory {
             createdPair = new Player[]{
                     new HumanPlayer('x', gameType),
                     new ComputerPlayer('o')};
-        } else {
+        } else if (gameMode.equals("cvc")){
             createdPair = new Player[]{
                     new ComputerPlayer('x'),
                     new ComputerPlayer('o')};
+        } else {
+             createdPair = new Player[]{
+                    new HumanPlayer('x', gameType),
+                    new UnbeatableComputerPlayer('o')};
         }
         return createdPair;
     }

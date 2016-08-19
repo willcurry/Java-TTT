@@ -1,7 +1,9 @@
 import org.junit.Test;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.ArrayList;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -19,7 +21,7 @@ public class BoardTests {
     }
 
     @Test
-    public void canNotFindWinnerMiddleRow() {
+    public void cannotFindWinnerMiddleRow() {
         Board board = new Board("---oox---");
         assertThat(board.checkRowsForWin('x'), is(false));
     }
@@ -37,7 +39,7 @@ public class BoardTests {
     }
 
     @Test
-    public void canNotFindWinnerLeftColumn() {
+    public void cannotFindWinnerLeftColumn() {
         Board board = new Board("x--o--o--");
         assertThat(board.checkColumnsForWin('o'), is(false));
     }
@@ -71,10 +73,8 @@ public class BoardTests {
     public void canGetAllAvailablePositions() {
         Board board = new Board("---x-----");
         ArrayList<Integer> positions = board.availablePositions();
-        for (int i=0; i < positions.size(); i++) {
-            int position = positions.get(i);
-            assertThat(board.availablePosition(position - 1), is(true));
-        }
+        ArrayList<Integer> expected = new ArrayList<Integer>(asList(1, 2, 3, 5, 6, 7, 8, 9));
+        assertThat(positions, is(expected));
     }
 
     @Test

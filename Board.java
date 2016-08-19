@@ -9,12 +9,20 @@ public class Board {
         dimension = state.length() / (int) Math.sqrt(state.length());
     }
 
+    public int boardSize() {
+        return dimension * dimension;
+    }
+
     public String getState() {
         return this.state;
     }
 
      public Boolean availablePosition(int position) {
-         return position >= 0 && position <= dimension * dimension && state.charAt(position) == '-';
+         return validPositionOnBoard(position) && state.charAt(position) == '-';
+    }
+
+    private boolean validPositionOnBoard(int position) {
+        return position >= 0 && position <= boardSize();
     }
 
     public Board playerMakesMove(char player, int position) {
@@ -30,11 +38,11 @@ public class Board {
 
     public String getWinner() {
         for (String combination : allWinningCombinations()) {
-            if (!combination.contains("x") && !combination.contains("-")) {
-                return "o";
-            }
-            if (!combination.contains("o") && !combination.contains("-")) {
+            if (containsOnlySame('x', combination)) {
                 return "x";
+            }
+            if (containsOnlySame('o', combination)) {
+                return "o";
             }
         }
         return null;
@@ -53,12 +61,13 @@ public class Board {
         ArrayList<String> combinations = new ArrayList<>();
         combinations.addAll(getAllRows());
         combinations.addAll(getAllColumns());
+        combinations.addAll(getAllDiagonals());
         return combinations;
     }
 
     public ArrayList<String> getAllRows() {
         ArrayList<String> rows = new ArrayList<>();
-        for (int i=0; i < dimension * dimension; i+=dimension) {
+        for (int i=0; i < boardSize(); i+=dimension) {
             String row = "";
             for (int j = i; j < i + dimension; j++) {
                 row += state.charAt(j);
@@ -71,13 +80,13 @@ public class Board {
     public ArrayList<String> getAllDiagonals() {
         ArrayList<String> diagonals = new ArrayList<>();
         String diagonal = "";
-        for (int j = 0; j < dimension * dimension + 1; j+=dimension + 1) {
+        for (int j = 0; j < boardSize() + 1; j+=dimension + 1) {
             diagonal += state.charAt(j);
         }
         diagonals.add(diagonal);
 
         diagonal = "";
-        for (int j = dimension - 1; j < dimension * dimension - 1; j+=dimension - 1) {
+        for (int j = dimension - 1; j < boardSize() - 1; j+=dimension - 1) {
             diagonal += state.charAt(j);
         }
         diagonals.add(diagonal);
@@ -88,7 +97,7 @@ public class Board {
         ArrayList<String> columns = new ArrayList<>();
         for (int i=0; i < dimension; i++) {
             String column = "";
-            for (int j=i; j < i + dimension * dimension; j+= dimension) {
+            for (int j=i; j < i + boardSize(); j+= dimension) {
                 column += state.charAt(j);
             }
             columns.add(column);
@@ -98,7 +107,7 @@ public class Board {
 
     public boolean checkRowsForWin(char player) {
         for (String row : getAllRows()) {
-            if (containsOnlySame(row, player)) {
+            if (containsOnlySame(player, row)) {
                 return true;
             }
         }
@@ -107,7 +116,7 @@ public class Board {
 
     public boolean checkDiagonalsForWin(char player) {
         for (String row : getAllDiagonals()) {
-            if (containsOnlySame(row, player)) {
+            if (containsOnlySame(player, row)) {
                 return true;
             }
         }
@@ -116,7 +125,7 @@ public class Board {
 
     public boolean checkColumnsForWin(char player) {
         for (String row : getAllColumns()) {
-            if (containsOnlySame(row, player)) {
+            if (containsOnlySame(player, row)) {
                 return true;
             }
         }
@@ -127,11 +136,11 @@ public class Board {
         return !state.contains("-");
     }
 
-    public boolean checkForWin(char player, int position) {
+    public boolean checkForWin(char player) {
         return checkRowsForWin(player) || checkColumnsForWin(player);
     }
 
-    public boolean containsOnlySame(String row, char player) {
+    public boolean containsOnlySame(char player, String row) {
         for (int i=0; i < dimension; i++) {
             if (!(row.charAt(i) == player)) return false;
         }
@@ -140,7 +149,7 @@ public class Board {
 
     public ArrayList availablePositions() {
         ArrayList<Integer> positions = new ArrayList<>();
-        for (int i=0; i < dimension * dimension; i++) {
+        for (int i=0; i < boardSize(); i++) {
             if (state.charAt(i) == '-') {
                 positions.add(i + 1);
             }
