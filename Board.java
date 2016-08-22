@@ -137,7 +137,7 @@ public class Board {
     }
 
     public boolean checkForWin(char player) {
-        return checkRowsForWin(player) || checkColumnsForWin(player);
+        return checkRowsForWin(player) || checkColumnsForWin(player) || checkDiagonalsForWin(player);
     }
 
     public boolean containsOnlySame(char player, String row) {

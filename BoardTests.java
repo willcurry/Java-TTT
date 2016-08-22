@@ -57,6 +57,12 @@ public class BoardTests {
     }
 
     @Test
+    public void checkForWinCanFindWinner() {
+        Board board = new Board("x---x---x");
+        assertThat(board.checkForWin('x'), is(true));
+    }
+
+    @Test
     public void posUnavaliable() {
         Board board = new Board("xxx------");
         Board newBoard = board.playerMakesMove('o', 2);
