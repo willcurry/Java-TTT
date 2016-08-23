@@ -79,10 +79,14 @@ public class ConsoleGame implements GameType {
         }
     }
 
+    private void announceResult(Board board) {
+        print(board.getWinner() == null ? "Draw! \n" : board.getWinner() + " has won the game! \n");
+    }
+
     @Override
     public void gameIsOver(Board board) {
         if (board.isGameOver()) {
-            print(board.getWinner() == null ? "Draw! \n" : board.getWinner() + " has won the game! \n");
+            announceResult(board);
         }
     }
 
