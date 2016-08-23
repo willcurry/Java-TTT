@@ -160,4 +160,13 @@ public class Board {
         }
         return positions;
     }
+
+    public static Board createBoard(int size) {
+        String state = "";
+        for (int i=0; i < size * size; i++) {
+            state += "-";
+        }
+        return new Board(state);
+    }
+
 }
