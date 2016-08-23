@@ -18,7 +18,11 @@ public class Board {
     }
 
      public Boolean availablePosition(int position) {
-         return validPositionOnBoard(position) && state.charAt(position) == '-';
+         return validPositionOnBoard(position) && isEmpty(position);
+    }
+
+    private boolean isEmpty(int position) {
+        return state.charAt(position) == '-';
     }
 
     private boolean validPositionOnBoard(int position) {
