@@ -14,7 +14,7 @@ public class UnbeatableComputerPlayer implements Player {
     }
 
     private Integer bestMove(Board board) {
-        int maximumDepth = 8;
+        int maximumDepth = board.boardSize();
         return minimax(maximumDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, board, mark).move();
     }
 
@@ -43,28 +43,28 @@ public class UnbeatableComputerPlayer implements Player {
     }
 
     private ScoredMove updateScore(char player, ScoredMove currentBestMove, int position, ScoredMove score) {
-        if (score.isBetterThan(currentBestMove, player)) {
+        if (score.isBetter(currentBestMove, player)) {
             currentBestMove = new ScoredMove(score.score(), position);
         }
         return currentBestMove;
     }
 
-    private int score(Board board, int remainingMovesCount) {
+    public int score(Board board, int moves) {
         if (board.checkForWin(mark)) {
-            return remainingMovesCount;
+            return moves;
         }
         if (board.checkForDraw()){
             return 0;
         }
-        return -remainingMovesCount;
+        return -moves;
     }
 
     private ScoredMove resetBestScore(char player) {
-        int bestMovePlaceholder = -1;
+        int bestMove = -1;
         if (player == mark) {
-            return new ScoredMove(-1000, bestMovePlaceholder);
+            return new ScoredMove(-1000, bestMove);
         } else {
-            return new ScoredMove(1000, bestMovePlaceholder);
+            return new ScoredMove(1000, bestMove);
         }
     }
 
@@ -85,9 +85,8 @@ public class UnbeatableComputerPlayer implements Player {
             return move;
         }
 
-        private boolean isBetterThan(ScoredMove scoredMove, char player) {
-            return (player == mark && score > scoredMove.score) ||
-                    (player != mark && score < scoredMove.score);
+        private boolean isBetter(ScoredMove scoredMove, char player) {
+            return (player == mark && score > scoredMove.score) || (player != mark && score < scoredMove.score);
         }
     }
 }
