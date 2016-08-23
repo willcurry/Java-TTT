@@ -34,10 +34,11 @@ public class UnbeatableComputerPlayer implements Player {
             ScoredMove score = minimax(depth -1, alpha, beta, newBoard, player == 'x' ? 'o' : 'x');
             bestMove = updateScore(player, bestMove, move, score);
             if (player == mark) {
-                alpha = Math.max(alpha, bestMove.score);
+                alpha = Math.max(alpha, bestMove.score());
             } else {
-                beta = Math.min(beta, bestMove.score);
+                beta = Math.min(beta, bestMove.score());
             }
+            if (alpha >= beta) break;
         }
         return bestMove;
     }
