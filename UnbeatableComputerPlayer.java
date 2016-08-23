@@ -14,7 +14,7 @@ public class UnbeatableComputerPlayer implements Player {
     }
 
     private Integer bestMove(Board board) {
-        int maximumDepth = board.boardSize();
+        int maximumDepth = 8;
         return minimax(maximumDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, board, mark).move();
     }
 

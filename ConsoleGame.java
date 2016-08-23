@@ -47,7 +47,7 @@ public class ConsoleGame implements GameType {
     @Override
     public void drawTurn(Player player) {
         print("----------------- \n");
-        print("Its your turn " + player.getMark() + "!\n");
+        print("It's your turn " + player.getMark() + "!\n");
         print("----------------- \n");
     }
 
@@ -80,7 +80,7 @@ public class ConsoleGame implements GameType {
     }
 
     private void announceResult(Board board) {
-        print(board.getWinner() == null ? "Draw! \n" : board.getWinner() + " has won the game! \n");
+        print(board.getWinner() == "No winner" ? "Draw! \n" : board.getWinner() + " has won the game! \n");
     }
 
     @Override

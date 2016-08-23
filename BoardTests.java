@@ -13,45 +13,45 @@ public class BoardTests {
     }
 
     @Test
-    public void canFindWinnerXrow() {
+    public void canFindWinnerXRow() {
         Board board = new Board("------xxx");
-        assertThat(board.checkRowsForWin('x'), is(true));
+        assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void cannotFindWinnerMiddleRow() {
+    public void canNotFindWinnerMiddleRow() {
         Board board = new Board("---oox---");
-        assertThat(board.checkRowsForWin('x'), is(false));
+        assertThat(board.checkForWin('x'), is(false));
     }
 
     @Test
-    public void canFindWinnerOrow() {
+    public void canFindWinnerORow() {
         Board board = new Board("ooo------");
-        assertThat(board.checkRowsForWin('o'), is(true));
+        assertThat(board.checkForWin('o'), is(true));
     }
 
     @Test
-    public void canFindWinnerOcolum() {
+    public void canFindWinnerOColumn() {
         Board board = new Board("o--o--o--");
-        assertThat(board.checkColumnsForWin('o'), is(true));
+        assertThat(board.checkForWin('o'), is(true));
     }
 
     @Test
-    public void cannotFindWinnerLeftColumn() {
+    public void canNotFindWinnerLeftColumn() {
         Board board = new Board("x--o--o--");
-        assertThat(board.checkColumnsForWin('o'), is(false));
+        assertThat(board.checkForWin('o'), is(false));
     }
 
     @Test
-    public void canFindWinnerXcolum() {
-        Board board = new Board("oxooxoox-");
-        assertThat(board.checkColumnsForWin('x'), is(true));
+    public void canFindWinnerXColumn() {
+        Board board = new Board("x--x--x--");
+        assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void canFindWinnerDiagional() {
+    public void canFindWinnerDiagonal() {
         Board board = new Board("x---x---x");
-        assertThat(board.checkDiagonalsForWin('x'), is(true));
+        assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
@@ -67,14 +67,14 @@ public class BoardTests {
     }
 
     @Test
-    public void posUnavaliable3x3() {
+    public void posUnavailable3x3() {
         Board board = new Board("xxx------");
         Board newBoard = board.playerMakesMove('o', 2);
         assertThat(newBoard.getState(), is("xxx------"));
     }
 
     @Test
-    public void posUnavaliable4x4() {
+    public void posUnavailable4x4() {
         Board board = new Board("xxx-------------");
         Board newBoard = board.playerMakesMove('o', 2);
         assertThat(newBoard.getState(), is("xxx-------------"));
@@ -109,6 +109,6 @@ public class BoardTests {
                         "----" +
                         "----" +
                         "----");
-        assertThat(board.checkRowsForWin('x'), is(false));
+        assertThat(board.checkForWin('x'), is(false));
     }
 }

@@ -40,6 +40,21 @@ public class Board {
         return this;
     }
 
+    public boolean checkForDraw() {
+        return !state.contains("-");
+    }
+
+    public boolean checkForWin(char player) {
+        return (getWinner().equals(Character.toString(player)));
+    }
+
+    public boolean containsOnlySame(char player, String row) {
+        for (int i=0; i < dimension; i++) {
+            if (!(row.charAt(i) == player)) return false;
+        }
+        return true;
+    }
+
     public String getWinner() {
         for (String combination : allWinningCombinations()) {
             if (containsOnlySame('x', combination)) {
@@ -49,11 +64,11 @@ public class Board {
                 return "o";
             }
         }
-        return null;
+        return "No winner";
     }
 
     public boolean hasWinner() {
-        return getWinner() != null;
+        return getWinner() != "No winner";
     }
 
 
@@ -109,48 +124,6 @@ public class Board {
         return columns;
     }
 
-    public boolean checkRowsForWin(char player) {
-        for (String row : getAllRows()) {
-            if (containsOnlySame(player, row)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean checkDiagonalsForWin(char player) {
-        for (String row : getAllDiagonals()) {
-            if (containsOnlySame(player, row)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean checkColumnsForWin(char player) {
-        for (String row : getAllColumns()) {
-            if (containsOnlySame(player, row)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean checkForDraw() {
-        return !state.contains("-");
-    }
-
-    public boolean checkForWin(char player) {
-        return checkRowsForWin(player) || checkColumnsForWin(player) || checkDiagonalsForWin(player);
-    }
-
-    public boolean containsOnlySame(char player, String row) {
-        for (int i=0; i < dimension; i++) {
-            if (!(row.charAt(i) == player)) return false;
-        }
-        return true;
-    }
-
     public ArrayList availablePositions() {
         ArrayList<Integer> positions = new ArrayList<>();
         for (int i=0; i < boardSize(); i++) {
@@ -168,5 +141,4 @@ public class Board {
         }
         return new Board(state);
     }
-
 }
