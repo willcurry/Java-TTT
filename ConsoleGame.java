@@ -3,11 +3,12 @@ import java.io.*;
 public class ConsoleGame implements GameType {
 
     private final Writer writer;
+    private final InputStream inputStream;
     private BufferedReader reader;
 
     public ConsoleGame(Writer writer, InputStream stream) {
         this.writer = writer;
-        InputStream inputStream = stream;
+        inputStream = stream;
         reader = new BufferedReader(new InputStreamReader(stream));
     }
 
