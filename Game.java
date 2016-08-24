@@ -45,11 +45,12 @@ public class Game {
         while (!board.isGameOver()){
             board = playerMakesMove();
         }
-        gameType.gameIsOver(board, playerDeactive);
+        gameType.gameIsOver(board);
         startNewGame();
     }
 
     public void pickGameMode() {
+        this.board = Board.createBoard(gameType.userPickBoardSize());
         gameType.displayAllGameModes();
         playGame(gameType.userPickGameMode());
         pickGameMode();

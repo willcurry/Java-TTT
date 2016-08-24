@@ -1,5 +1,7 @@
 import org.junit.Test;
+import java.util.ArrayList;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -11,41 +13,71 @@ public class BoardTests {
     }
 
     @Test
-    public void canFindWinnerXrow() {
-        Board board = new Board("---xxx---");
+    public void canFindWinnerXRow() {
+        Board board = new Board("------xxx");
         assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void canFindWinnerOrow() {
+    public void canNotFindWinnerMiddleRow() {
+        Board board = new Board("---oox---");
+        assertThat(board.checkForWin('x'), is(false));
+    }
+
+    @Test
+    public void canFindWinnerORow() {
         Board board = new Board("ooo------");
         assertThat(board.checkForWin('o'), is(true));
     }
 
     @Test
-    public void canFindWinnerOcolum() {
-        Board board = new Board("oxxoxxox-");
+    public void canFindWinnerOColumn() {
+        Board board = new Board("o--o--o--");
         assertThat(board.checkForWin('o'), is(true));
     }
 
+    @Test
+    public void canNotFindWinnerLeftColumn() {
+        Board board = new Board("x--o--o--");
+        assertThat(board.checkForWin('o'), is(false));
+    }
 
     @Test
-    public void canFindWinnerXcolum() {
-        Board board = new Board("oxooxoox-");
+    public void canFindWinnerXColumn() {
+        Board board = new Board("x--x--x--");
         assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void canFindWinnerDiagional() {
+    public void canFindWinnerDiagonal() {
         Board board = new Board("x---x---x");
         assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void posUnavaliable() {
+    public void checkForWinCanFindWinner3x3() {
+        Board board = new Board("x---x---x");
+        assertThat(board.checkForWin('x'), is(true));
+    }
+
+    @Test
+    public void checkForWinCanFindWinner4x4() {
+        Board board = new Board("xxxx------------");
+        assertThat(board.checkForWin('x'), is(true));
+    }
+
+    @Test
+    public void posUnavailable3x3() {
         Board board = new Board("xxx------");
         Board newBoard = board.playerMakesMove('o', 2);
         assertThat(newBoard.getState(), is("xxx------"));
+    }
+
+    @Test
+    public void posUnavailable4x4() {
+        Board board = new Board("xxx-------------");
+        Board newBoard = board.playerMakesMove('o', 2);
+        assertThat(newBoard.getState(), is("xxx-------------"));
     }
 
     @Test
@@ -55,12 +87,28 @@ public class BoardTests {
     }
 
     @Test
-    public void canGetAllAvailablePositions() {
-        Board board = new Board("---x----");
-        int count = 0;
-        for (int i=0; i < board.availablePositions().size(); i++) {
-            count += 1;
-        }
-        assertThat(count, is(7));
+    public void canGetAllAvailablePositions3x3() {
+        Board board = new Board("---x-----");
+        ArrayList<Integer> positions = board.availablePositions();
+        ArrayList<Integer> expected = new ArrayList<Integer>(asList(1, 2, 3, 5, 6, 7, 8, 9));
+        assertThat(positions, is(expected));
+    }
+
+    @Test
+    public void canGetAllAvailablePositions4x4() {
+        Board board = new Board("-xx-------------");
+        ArrayList<Integer> positions = board.availablePositions();
+        ArrayList<Integer> expected = new ArrayList<Integer>(asList(1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
+        assertThat(positions, is(expected));
+    }
+
+    @Test
+    public void whenBoredLengthIsFourThreeCannotWin() {
+        Board board = new Board(
+                        "xxx-" +
+                        "----" +
+                        "----" +
+                        "----");
+        assertThat(board.checkForWin('x'), is(false));
     }
 }

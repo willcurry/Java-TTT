@@ -4,7 +4,8 @@ public interface GameType {
     void drawNewGame(String gameMode);
     void invalidMove();
     void displayAllGameModes();
-    void gameIsOver(Board board, Player winner);
+    void gameIsOver(Board board);
     String userPickGameMode();
     String userInput();
+    int userPickBoardSize();
 }
