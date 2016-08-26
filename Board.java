@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 
 public class Board {
     private final String state;
@@ -124,14 +128,11 @@ public class Board {
         return columns;
     }
 
-    public ArrayList availablePositions() {
-        ArrayList<Integer> positions = new ArrayList<>();
-        for (int i=0; i < boardSize(); i++) {
-            if (state.charAt(i) == '-') {
-                positions.add(i + 1);
-            }
-        }
-        return positions;
+    public List<Integer> availablePositions() {
+        return range(0, boardSize())
+                .filter(p -> state.charAt(p) == '-')
+                .mapToObj(i -> i + 1)
+                .collect(toList());
     }
 
     public static Board createBoard(int size) {
