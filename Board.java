@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
@@ -52,19 +53,19 @@ public class Board {
         return (getWinner().equals(Character.toString(player)));
     }
 
-    public boolean containsOnlySame(char player, String row) {
-        for (int i=0; i < dimension; i++) {
-            if (!(row.charAt(i) == player)) return false;
-        }
-        return true;
+    public List<Integer> containsOnlySame(char player, String row) {
+        return range(0, dimension)
+                .filter(p -> row.charAt(p) == player)
+                .mapToObj(i -> i + 1)
+                .collect(toList());
     }
 
     public String getWinner() {
         for (String combination : allWinningCombinations()) {
-            if (containsOnlySame('x', combination)) {
+            if (containsOnlySame('x', combination).size() == dimension) {
                 return "x";
             }
-            if (containsOnlySame('o', combination)) {
+            if (containsOnlySame('o', combination).size() == dimension) {
                 return "o";
             }
         }
