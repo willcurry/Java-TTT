@@ -1,5 +1,6 @@
 import org.junit.Test;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
@@ -44,13 +45,22 @@ public class BoardTests {
 
     @Test
     public void canFindWinnerXColumn() {
-        Board board = new Board("x--x--x--");
+        Board board = new Board(
+                "x--" +
+                "x--" +
+                "x--");
         assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void canFindWinnerDiagonal() {
+    public void canFindWinnerRightDiagonal() {
         Board board = new Board("x---x---x");
+        assertThat(board.checkForWin('x'), is(true));
+    }
+
+    @Test
+    public void canFindWinnerLeftDiagonal() {
+        Board board = new Board("--x-x-x--");
         assertThat(board.checkForWin('x'), is(true));
     }
 
