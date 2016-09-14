@@ -2,13 +2,10 @@ import com.sun.deploy.util.ArrayUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
-import static java.util.stream.LongStream.rangeClosed;
 
 public class Board {
     private final String state;
@@ -69,7 +66,6 @@ public class Board {
         final String[] winner = {"No winner"};
 
         allWinningCombinations().forEach(combination -> {
-            System.out.print(containsOnlySame("x", combination).size());
             if (containsOnlySame("o", combination).size() == dimension) winner[0] = "o";
             if (containsOnlySame("x", combination).size() == dimension) winner[0] = "x";
         });
