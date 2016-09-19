@@ -1,5 +1,3 @@
-import com.sun.deploy.util.ArrayUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,7 +65,7 @@ public class Board {
 
         allWinningCombinations().forEach(combination -> {
             if (containsOnlySame("o", combination).size() == dimension) winner[0] = "o";
-            if (containsOnlySame("x", combination).size() == dimension) winner[0] = "x";
+            else if (containsOnlySame("x", combination).size() == dimension) winner[0] = "x";
         });
         return winner[0];
     }
@@ -85,8 +83,7 @@ public class Board {
         ArrayList<List<String>> combinations = new ArrayList<>();
         combinations.addAll(getAllRows());
         combinations.addAll(getAllColumns());
-        combinations.addAll(getRightDiagonal());
-        combinations.addAll(getLeftDiagonal());
+        combinations.addAll(getDigonals());
         return combinations;
     }
 
@@ -114,6 +111,13 @@ public class Board {
                 .collect(toList());
     }
 
+    private List<List<String>> getDigonals() {
+        List<List<String>> diagonals = new ArrayList<>();
+        diagonals.addAll(getLeftDiagonal());
+        diagonals.addAll(getRightDiagonal());
+        return diagonals;
+    }
+
     public List<Integer> availablePositions() {
         return range(0, boardSize())
                 .filter(p -> state.charAt(p) == '-')
@@ -122,11 +126,11 @@ public class Board {
     }
 
     public static Board createBoard(int size) {
-        String state = "";
-        for (int i=0; i < size * size; i++) {
-            state += "-";
-        }
-        return new Board(state);
+        final String[] state = {""};
+        range(0, size * size).forEach(i -> {
+            state[0] += "-";
+        });
+        return new Board(state[0]);
     }
 
     public List<String> getRightDiagonalCells() {
