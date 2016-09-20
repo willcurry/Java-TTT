@@ -28,8 +28,7 @@ public class UnbeatableComputerPlayer implements Player {
         if (board.isGameOver() || depth == 0) {
             return new ScoredMove(score(board, depth), bestMove.score());
         }
-        ArrayList<Integer> availablePositions = board.availablePositions();
-        for (int move : availablePositions) {
+        for (int move : board.availablePositions()) {
             Board newBoard = board.playerMakesMove(player, move - 1);
             ScoredMove score = minimax(depth -1, alpha, beta, newBoard, player == 'x' ? 'o' : 'x');
             bestMove = updateScore(player, bestMove, move, score);

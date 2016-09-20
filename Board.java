@@ -1,4 +1,9 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 
 public class Board {
     private final String state;
@@ -17,7 +22,7 @@ public class Board {
         return this.state;
     }
 
-     public Boolean availablePosition(int position) {
+    public Boolean availablePosition(int position) {
          return validPositionOnBoard(position) && isEmpty(position);
     }
 
@@ -48,23 +53,21 @@ public class Board {
         return (getWinner().equals(Character.toString(player)));
     }
 
-    public boolean containsOnlySame(char player, String row) {
-        for (int i=0; i < dimension; i++) {
-            if (!(row.charAt(i) == player)) return false;
-        }
-        return true;
+    public List<String> containsOnlySame(String player, List<String> combination) {
+        return combination.stream()
+                .filter(p -> p.contains(player))
+                .map(i -> i + 1)
+                .collect(toList());
     }
 
     public String getWinner() {
-        for (String combination : allWinningCombinations()) {
-            if (containsOnlySame('x', combination)) {
-                return "x";
-            }
-            if (containsOnlySame('o', combination)) {
-                return "o";
-            }
-        }
-        return "No winner";
+        final String[] winner = {"No winner"};
+
+        allWinningCombinations().forEach(combination -> {
+            if (containsOnlySame("o", combination).size() == dimension) winner[0] = "o";
+            else if (containsOnlySame("x", combination).size() == dimension) winner[0] = "x";
+        });
+        return winner[0];
     }
 
     public boolean hasWinner() {
@@ -76,69 +79,96 @@ public class Board {
         return hasWinner() || checkForDraw();
     }
 
-    public ArrayList<String> allWinningCombinations() {
-        ArrayList<String> combinations = new ArrayList<>();
+    public ArrayList<List<String>> allWinningCombinations() {
+        ArrayList<List<String>> combinations = new ArrayList<>();
         combinations.addAll(getAllRows());
         combinations.addAll(getAllColumns());
-        combinations.addAll(getAllDiagonals());
+        combinations.addAll(getDigonals());
         return combinations;
     }
 
-    public ArrayList<String> getAllRows() {
-        ArrayList<String> rows = new ArrayList<>();
-        for (int i=0; i < boardSize(); i+=dimension) {
-            String row = "";
-            for (int j = i; j < i + dimension; j++) {
-                row += state.charAt(j);
-            }
-            rows.add(row);
-        }
-        return rows;
+    public List<List<String>> getLeftDiagonal() {
+        return range(0, dimension)
+                .mapToObj(i -> getLeftDiagonalCells())
+                .collect(toList());
     }
 
-    public ArrayList<String> getAllDiagonals() {
-        ArrayList<String> diagonals = new ArrayList<>();
-        String diagonal = "";
-        for (int j = 0; j < boardSize() + 1; j+=dimension + 1) {
-            diagonal += state.charAt(j);
-        }
-        diagonals.add(diagonal);
+    public List<List<String>> getRightDiagonal() {
+        return range(0, dimension)
+                .mapToObj(i -> getRightDiagonalCells())
+                .collect(toList());
+    }
 
-        diagonal = "";
-        for (int j = dimension - 1; j < boardSize() - 1; j+=dimension - 1) {
-            diagonal += state.charAt(j);
-        }
-        diagonals.add(diagonal);
+    public List<List<String>> getAllRows() {
+         return range(0, dimension)
+                .mapToObj(i -> getRowCells(i))
+                .collect(toList());
+    }
+
+    public List<List<String>> getAllColumns() {
+        return range(0, dimension)
+                .mapToObj(i -> getColumnCells(i))
+                .collect(toList());
+    }
+
+    private List<List<String>> getDigonals() {
+        List<List<String>> diagonals = new ArrayList<>();
+        diagonals.addAll(getLeftDiagonal());
+        diagonals.addAll(getRightDiagonal());
         return diagonals;
     }
 
-    public ArrayList<String> getAllColumns() {
-        ArrayList<String> columns = new ArrayList<>();
-        for (int i=0; i < dimension; i++) {
-            String column = "";
-            for (int j=i; j < i + boardSize(); j+= dimension) {
-                column += state.charAt(j);
-            }
-            columns.add(column);
-        }
-        return columns;
-    }
-
-    public ArrayList availablePositions() {
-        ArrayList<Integer> positions = new ArrayList<>();
-        for (int i=0; i < boardSize(); i++) {
-            if (state.charAt(i) == '-') {
-                positions.add(i + 1);
-            }
-        }
-        return positions;
+    public List<Integer> availablePositions() {
+        return range(0, boardSize())
+                .filter(p -> state.charAt(p) == '-')
+                .mapToObj(i -> i + 1)
+                .collect(toList());
     }
 
     public static Board createBoard(int size) {
-        String state = "";
-        for (int i=0; i < size * size; i++) {
-            state += "-";
-        }
-        return new Board(state);
+        final String[] state = {""};
+        range(0, size * size).forEach(i -> {
+            state[0] += "-";
+        });
+        return new Board(state[0]);
+    }
+
+    public List<String> getRightDiagonalCells() {
+        String[] test = state.split("");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(test));
+        return range(0, dimension)
+                .mapToObj(i -> {
+                    int j = i * dimension + i;
+                    return list.get(j);
+                })
+                .collect(toList());
+    }
+
+     public List<String> getLeftDiagonalCells() {
+        String[] test = state.split("");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(test));
+         ArrayList<String> cells = new ArrayList<>();
+         for (int j = dimension - 1; j < boardSize() - 1; j+=dimension - 1) {
+             cells.add(list.get(j));
+         }
+         return cells;
+    }
+
+    public List<String> getColumnCells(int index) {
+        String[] test = state.split("");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(test));
+        return range(0, dimension)
+                .mapToObj(i -> list.get(index + i * dimension))
+                .collect(toList());
+    }
+
+    public List<String> getRowCells(int index) {
+        String[] test = state.split("");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(test));
+        int start = index * dimension;
+        int end = start + dimension;
+        return range(start, end)
+                .mapToObj(i -> list.get(i))
+                .collect(toList());
     }
 }

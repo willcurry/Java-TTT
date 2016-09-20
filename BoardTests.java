@@ -1,5 +1,6 @@
 import org.junit.Test;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
@@ -44,13 +45,22 @@ public class BoardTests {
 
     @Test
     public void canFindWinnerXColumn() {
-        Board board = new Board("x--x--x--");
+        Board board = new Board(
+                "x--" +
+                "x--" +
+                "x--");
         assertThat(board.checkForWin('x'), is(true));
     }
 
     @Test
-    public void canFindWinnerDiagonal() {
+    public void canFindWinnerRightDiagonal() {
         Board board = new Board("x---x---x");
+        assertThat(board.checkForWin('x'), is(true));
+    }
+
+    @Test
+    public void canFindWinnerLeftDiagonal() {
+        Board board = new Board("--x-x-x--");
         assertThat(board.checkForWin('x'), is(true));
     }
 
@@ -89,17 +99,15 @@ public class BoardTests {
     @Test
     public void canGetAllAvailablePositions3x3() {
         Board board = new Board("---x-----");
-        ArrayList<Integer> positions = board.availablePositions();
         ArrayList<Integer> expected = new ArrayList<Integer>(asList(1, 2, 3, 5, 6, 7, 8, 9));
-        assertThat(positions, is(expected));
+        assertThat(board.availablePositions(), is(expected));
     }
 
     @Test
     public void canGetAllAvailablePositions4x4() {
         Board board = new Board("-xx-------------");
-        ArrayList<Integer> positions = board.availablePositions();
         ArrayList<Integer> expected = new ArrayList<Integer>(asList(1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-        assertThat(positions, is(expected));
+        assertThat(board.availablePositions(), is(expected));
     }
 
     @Test
