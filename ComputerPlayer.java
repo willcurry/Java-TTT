@@ -11,13 +11,12 @@ public class ComputerPlayer implements Player {
 
     @Override
     public Integer nextMove(Board board) {
-        int index = randInt(0, board.availablePositions().size() - 1);
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return board.availablePositions().get(index);
+        return board.availablePositions().get(randInt(0, board.availablePositions().size() - 1));
     }
 
     @Override
