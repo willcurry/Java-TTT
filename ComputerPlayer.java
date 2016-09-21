@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +17,7 @@ public class ComputerPlayer implements Player {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return (int) board.availablePositions().get(index);
+        return board.availablePositions().get(index);
     }
 
     @Override
