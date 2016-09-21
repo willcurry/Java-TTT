@@ -2,14 +2,12 @@ import java.io.*;
 
 public class Game {
 
-    private InputStream reader;
     private Board board;
     private Player playerActive;
     private Player playerDeactive;
     private GameType gameType;
 
-    public Game(InputStream reader, Board board, GameType gameType) {
-        this.reader = reader;
+    public Game(Board board, GameType gameType) {
         this.board = board;
         this.gameType = gameType;
     }
@@ -59,9 +57,8 @@ public class Game {
     public static void startNewGame() {
         Board board = new Board("---------");
         Writer writer = new PrintWriter(System.out);
-        InputStream reader = System.in;
-        ConsoleGame consoleGame = new ConsoleGame(writer, reader);
-        Game game = new Game(System.in, board, consoleGame);
+        ConsoleGame consoleGame = new ConsoleGame(writer, System.in);
+        Game game = new Game(board, consoleGame);
         game.pickGameMode();
     }
 

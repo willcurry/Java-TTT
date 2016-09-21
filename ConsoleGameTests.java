@@ -22,7 +22,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
-        Game game = new Game(stream, board, consoleGame);
+        Game game = new Game(board, consoleGame);
         game.assignPlayers("pvp");
         consoleGame.drawBoard(board);
         assertThat(output.toString(), containsString("|xxo|\n|oxx|\n|ox-|"));
@@ -33,10 +33,10 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("1".getBytes());
         Board board = new Board("---------");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
-        Game game = new Game(stream, board, consoleGame);
+        Game game = new Game(board, consoleGame);
         game.assignPlayers("pvp");
         game.playerMakesMove();
-        assertThat(output.toString(), containsString("Its your turn o!"));
+        assertThat(output.toString(), containsString("It's your turn o!"));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("xxooxxox-");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
-        Game game = new Game(stream, board, consoleGame);
+        Game game = new Game(board, consoleGame);
         game.assignPlayers("pvp");
         game.playerMakesMove();
         consoleGame.gameIsOver(board);
@@ -75,7 +75,7 @@ public class ConsoleGameTests {
         InputStream stream = new ByteArrayInputStream("9".getBytes());
         Board board = new Board("lllllllll");
         ConsoleGame consoleGame = new ConsoleGame(writer, stream);
-        Game game = new Game(stream, board, consoleGame);
+        Game game = new Game(board, consoleGame);
         game.assignPlayers("pvp");
         Player player = new ComputerPlayer('x');
         consoleGame.gameIsOver(board);

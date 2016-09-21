@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class UnbeatableComputerPlayer implements Player {
 
     private final char mark;
